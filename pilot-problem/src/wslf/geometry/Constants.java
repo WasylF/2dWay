@@ -4,7 +4,14 @@ package wslf.geometry;
  *
  * @author Wsl_F
  */
-public class Constants {
+class Constants {
+
+    /**
+     * epsilon value for distances
+     */
     static final double EPS = 1e-8;
-    static final double PI= Math.PI;
+    /**
+     * epsilon angle in radians
+     */
+    static final double EPS_ANGLE = 1e-3;
 }
