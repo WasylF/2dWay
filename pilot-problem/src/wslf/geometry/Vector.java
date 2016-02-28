@@ -1,6 +1,7 @@
 package wslf.geometry;
 
 import static java.lang.Math.*;
+import javax.swing.text.html.HTML;
 import static wslf.geometry.Constants.*;
 
 /**
@@ -8,12 +9,24 @@ import static wslf.geometry.Constants.*;
  * @author Wsl_F
  */
 public class Vector extends Point {
-
+    
+    public Vector() {
+        super();
+    }
+    
+    public Vector(double x, double y) {
+        super(x, y);
+    }
+    
+    public Vector(Vector v) {
+        super(v);
+    }
+    
     public Vector(Point begin, Point end) {
         this.x = end.x - begin.x;
         this.y = end.y - begin.y;
     }
-
+    
     @Override
     public String toString() {
         return " ( " + x + " , " + y + " ) : |" + length() + "|";
@@ -56,11 +69,11 @@ public class Vector extends Point {
         if (length() + v.length() < EPS) {
             return true;
         }
-
+        
         if (length() * v.length() < EPS) {
             return false;
         }
-
+        
         return abs(x * v.y - y * v.x) < EPS;
     }
 
