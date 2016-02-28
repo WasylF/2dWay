@@ -211,6 +211,16 @@ public class Vector extends Point {
     }
 
     /**
+     * do vectors have the same direction?
+     *
+     * @param v
+     * @return true if angle close to zero
+     */
+    public boolean isUnidirectional(Vector v) {
+        return abs(getAngle(v)) < EPS_ANGLE;
+    }
+
+    /**
      *
      * @return angle with the abscissa
      */
