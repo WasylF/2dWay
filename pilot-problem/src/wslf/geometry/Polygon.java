@@ -66,4 +66,37 @@ public class Polygon {
     public int getSize() {
         return vertexes.length;
     }
+
+    /**
+     * check does the point belongs to this polygon
+     *
+     * @param p Point
+     * @return true if point inside or on border of polygon
+     */
+    public boolean contains(Point p) {
+        int plus;
+        plus = 0;
+        for (int i = 0; i + 1 < vertexes.length; i++) {
+            Vector v = new Vector(vertexes[i + 1].x - vertexes[i].x, vertexes[i + 1].y - vertexes[i].y);
+            Vector vP = new Vector(p.x - vertexes[i].x, p.y - vertexes[i].y);
+            switch (v.sgnMultiplyVectors(vP)) {
+                case 0:
+                    return true;
+                case 1:
+                    plus++;
+            }
+        }
+
+        Vector v = new Vector(vertexes[0].x - vertexes[vertexes.length - 1].x, vertexes[0].y - vertexes[vertexes.length - 1].y);
+        Vector vP = new Vector(p.x - vertexes[vertexes.length - 1].x, p.y - vertexes[vertexes.length - 1].y);
+        switch (v.sgnMultiplyVectors(vP)) {
+            case 0:
+                return true;
+            case 1:
+                plus++;
+        }
+
+        return (plus == 0 || plus == vertexes.length);
+
+    }
 }
