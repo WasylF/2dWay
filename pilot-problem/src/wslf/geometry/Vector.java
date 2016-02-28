@@ -126,7 +126,7 @@ public class Vector extends Point {
      * @return multiplication
      */
     public double multiplyScalar(Vector v) {
-        return x * y + v.x * v.y;
+        return x * v.x + y * v.y;
     }
 
     /**
