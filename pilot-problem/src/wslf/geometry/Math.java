@@ -1,5 +1,8 @@
 package wslf.geometry;
 
+import static java.lang.Math.*;
+import static wslf.geometry.Constants.*;
+
 /**
  *
  * @author Wsl_F
@@ -15,5 +18,16 @@ public class Math {
      */
     static double determinant(double a11, double a12, double a21, double a22) {
         return a11 * a22 - a12 * a21;
+    }
+    
+    /**
+     * | a11    a12 |
+     * |            |
+     * | a21    a22 |
+     * 
+     * @return  if value of  determinant close to 0 then return true 
+     */
+    static boolean isDeterminantZero(double a11, double a12, double a21, double a22) {
+        return abs(determinant(a11, a12, a21, a22)) < EPS;
     }
 }
