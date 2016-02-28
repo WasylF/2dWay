@@ -67,4 +67,27 @@ public class LineABC {
                 && isDeterminantZero(a, c, line.a, line.c)
                 && isDeterminantZero(b, c, line.b, line.c);
     }
+
+    public boolean isParallel(LineABC line) {
+        return isDeterminantZero(a, b, line.a, line.b);
+    }
+
+    /**
+     * calculate intersection point of 2 lines
+     *
+     * @param line second line
+     * @return intersection point if exists, else - null
+     */
+    public Point getIntersection(LineABC line) {
+        if (isParallel(line)) {
+            return null;
+        }
+
+        double x = -determinant(a, c, line.a, line.c)
+                / determinant(a, b, line.a, line.b);
+        double y = -determinant(c, b, line.c, line.b)
+                / determinant(a, b, line.a, line.b);
+
+        return new Point(x, y);
+    }
 }

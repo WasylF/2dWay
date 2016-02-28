@@ -91,4 +91,22 @@ public class Segment {
         v1 = new Vector(a, b);
         return !ab.isCollinear(v1);
     }
+
+    /**
+     * Calculate intersection of two segments
+     *
+     * @param segm second segment
+     * @return intersection point if exists, else - null
+     */
+    public Point getIntersection(Segment segm) {
+        if (!isIntersect(segm)) {
+            return null;
+        }
+
+        LineABC line1 = new LineABC(this);
+        LineABC line2 = new LineABC(segm);
+
+        Point p = line1.getIntersection(line2);
+        return p;
+    }
 }
