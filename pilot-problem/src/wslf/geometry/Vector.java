@@ -140,6 +140,23 @@ public class Vector extends Point {
     }
 
     /**
+     * Calculate signum of cross product of vectors
+     *
+     * @param v second vector
+     * @return int value of signum
+     */
+    public int sgnMultiplyVectors(Vector v) {
+        double mult = multiplyVectors(v);
+        if (abs(mult) < EPS) {
+            return 0;
+        }
+        if (mult < 0) {
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
      * rotate this vector by clockwise on angle phi
      *
      * @param phi angle
