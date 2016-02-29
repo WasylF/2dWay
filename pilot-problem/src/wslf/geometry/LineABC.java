@@ -76,16 +76,17 @@ public class LineABC {
      * calculate intersection point of 2 lines
      *
      * @param line second line
-     * @return intersection point if exists, else - null
+     * @return intersection point if exists, 
+     * if lines the same or parallel - null
      */
     public Point getIntersection(LineABC line) {
         if (isParallel(line)) {
             return null;
         }
 
-        double x = -determinant(a, c, line.a, line.c)
+        double x = -determinant(c, b, line.c, line.b)
                 / determinant(a, b, line.a, line.b);
-        double y = -determinant(c, b, line.c, line.b)
+        double y = -determinant(a, c, line.a, line.c)
                 / determinant(a, b, line.a, line.b);
 
         return new Point(x, y);
