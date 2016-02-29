@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static wslf.geometry.Constants.*;
+import static java.lang.Math.*;
 
 /**
  *
@@ -78,7 +79,7 @@ public class VectorTest extends TestCase {
         System.out.println("getPositiveAngle");
         Vector v = new Vector(1, 0);
         Vector instance = new Vector(0, 1);
-        double expResult = Math.PI / 2;
+        double expResult = PI / 2;
         double result = instance.getPositiveAngle(v);
         assertEquals(expResult, result, EPS);
     }
@@ -90,7 +91,7 @@ public class VectorTest extends TestCase {
         System.out.println("getPositiveAngle");
         Vector v = new Vector(0, 1);
         Vector instance = new Vector(1, 0);
-        double expResult = Math.PI / 2;
+        double expResult = PI / 2;
         double result = instance.getPositiveAngle(v);
         assertEquals(expResult, result, EPS);
     }
@@ -102,7 +103,7 @@ public class VectorTest extends TestCase {
         System.out.println("getPositiveAngle");
         Vector instance = new Vector(0, 1);
         Vector v = new Vector(1, 1000);
-        double expResult = Math.atan(1 / 1000);
+        double expResult = atan(1 / 1000);
         double result = instance.getPositiveAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
 
@@ -117,7 +118,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(0, 1);
-        double expResult = Math.PI / 2;
+        double expResult = PI / 2;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -129,7 +130,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(0, -1);
-        double expResult = -Math.PI / 2;
+        double expResult = -PI / 2;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -153,7 +154,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(-1, 0.0001);
-        double expResult = Math.PI;
+        double expResult = PI;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -165,7 +166,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(-1, -0.0001);
-        double expResult = -Math.PI;
+        double expResult = -PI;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -177,7 +178,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(0, 1);
-        double expResult = Math.PI / 4;
+        double expResult = PI / 4;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -189,7 +190,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(1, 0);
-        double expResult = -Math.PI / 4;
+        double expResult = -PI / 4;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -201,7 +202,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(-1, 1);
-        double expResult = Math.PI / 2;
+        double expResult = PI / 2;
         double result = instance.getAngle(v);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -213,7 +214,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(0, 1);
-        double expResult = -Math.PI / 2;
+        double expResult = -PI / 2;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -225,7 +226,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(0, -1);
-        double expResult = Math.PI / 2;
+        double expResult = PI / 2;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -249,7 +250,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(-1, 0.0001);
-        double expResult = -Math.PI;
+        double expResult = -PI;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -261,7 +262,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 0);
         Vector v = new Vector(-1, -0.0001);
-        double expResult = +Math.PI;
+        double expResult = +PI;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -273,7 +274,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(0, 1);
-        double expResult = -Math.PI / 4;
+        double expResult = -PI / 4;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -285,7 +286,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(1, 0);
-        double expResult = +Math.PI / 4;
+        double expResult = +PI / 4;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -297,7 +298,7 @@ public class VectorTest extends TestCase {
         System.out.println("getAngle");
         Vector instance = new Vector(1, 1);
         Vector v = new Vector(-1, 1);
-        double expResult = -Math.PI / 2;
+        double expResult = -PI / 2;
         double result = v.getAngle(instance);
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -311,7 +312,7 @@ public class VectorTest extends TestCase {
         for (double x = 1; x < 30; x++) {
             for (double y = 1; y < 30; y++) {
                 Vector v = new Vector(x, y);
-                double expResult = Math.atan(y / x);
+                double expResult = atan(y / x);
                 double result = instance.getAngle(v);
                 assertEquals(expResult, result, EPS_ANGLE);
             }
@@ -327,7 +328,7 @@ public class VectorTest extends TestCase {
         for (double x = 1; x < 30; x++) {
             for (double y = 1; y < 30; y++) {
                 Vector v = new Vector(x, -y);
-                double expResult = -Math.atan(y / x);
+                double expResult = -atan(y / x);
                 double result = instance.getAngle(v);
                 assertEquals(expResult, result, EPS_ANGLE);
             }
@@ -343,7 +344,7 @@ public class VectorTest extends TestCase {
         for (double x = 1; x < 30; x++) {
             for (double y = 1; y < 30; y++) {
                 Vector v = new Vector(-x, -y);
-                double expResult = Math.atan(y / x) - Math.PI;
+                double expResult = atan(y / x) - PI;
                 double result = instance.getAngle(v);
                 assertEquals(expResult, result, EPS_ANGLE);
             }
@@ -359,7 +360,7 @@ public class VectorTest extends TestCase {
         for (double x = 1; x < 30; x++) {
             for (double y = 1; y < 30; y++) {
                 Vector v = new Vector(-x, y);
-                double expResult = Math.PI - Math.atan(y / x);
+                double expResult = PI - atan(y / x);
                 double result = instance.getAngle(v);
                 assertEquals(expResult, result, EPS_ANGLE);
             }
@@ -375,7 +376,7 @@ public class VectorTest extends TestCase {
         for (double x = 1; x < 30; x++) {
             for (double y = 1; y < 30; y++) {
                 Vector v = new Vector(x, y);
-                double expResult = -Math.atan(x / y);
+                double expResult = -atan(x / y);
                 double result = instance.getAngle(v);
                 assertEquals(expResult, result, EPS_ANGLE);
             }
@@ -388,7 +389,7 @@ public class VectorTest extends TestCase {
     public void testGetAngleToOX() {
         System.out.println("getAngleToOX");
         Vector instance = new Vector(1, 1);
-        double expResult = -Math.PI / 4;
+        double expResult = -PI / 4;
         double result = instance.getAngleToOX();
         assertEquals(expResult, result, EPS_ANGLE);
     }
@@ -421,7 +422,7 @@ public class VectorTest extends TestCase {
      */
     public void testGetVectorByAngle() {
         System.out.println("getVectorByAngle");
-        double angle = Math.PI / 4;
+        double angle = PI / 4;
         Vector instance;
         instance = Vector.getVectorByAngle(angle);
         assertEquals(new Vector(1, 1), instance);
