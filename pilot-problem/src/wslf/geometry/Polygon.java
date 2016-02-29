@@ -14,13 +14,13 @@ public class Polygon {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("[ " + vertexes.length + ": ");
+        StringBuilder s = new StringBuilder("[" + vertexes.length + ":");
 
         for (int i = 0; i < vertexes.length; i++) {
-            s.append(vertexes[i] + "; ");
+            s.append(vertexes[i]);
         }
 
-        s.append(" ]");
+        s.append("]");
 
         return s.toString();
     }
@@ -45,9 +45,10 @@ public class Polygon {
         int shift = 0;
 
         while (shift < vertexes.length) {
-            if (vertexes[shift] == p.vertexes[0]) {
+            if (vertexes[shift].equals(p.vertexes[0])) {
                 break;
             }
+            shift++;
         }
 
         if (shift == vertexes.length) {
@@ -55,7 +56,7 @@ public class Polygon {
         }
 
         for (int i = 1; i < vertexes.length; i++) {
-            if (vertexes[(i + shift) % vertexes.length] != p.vertexes[i]) {
+            if (!vertexes[(i + shift) % vertexes.length].equals(p.vertexes[i])) {
                 return false;
             }
         }
