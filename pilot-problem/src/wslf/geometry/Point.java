@@ -1,6 +1,7 @@
 package wslf.geometry;
 
 import static wslf.geometry.Constants.*;
+import static java.lang.Math.*;
 
 /**
  *
@@ -43,11 +44,11 @@ public class Point {
     }
 
     public boolean equals(Point p) {
-        return (Math.abs(p.x - x) + Math.abs(p.y - y) < EPS);
+        return (abs(p.x - x) + abs(p.y - y) < EPS);
     }
 
     public double distance(Point p) {
-        return Math.sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
+        return hypot(x - p.x, y - p.y);
     }
 
     /**
