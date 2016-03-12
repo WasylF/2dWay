@@ -7,7 +7,7 @@ import static java.lang.Math.*;
  *
  * @author Wsl_F
  */
-public class Point {
+public class Point implements Comparable<Point> {
 
     double x;
     double y;
@@ -59,5 +59,16 @@ public class Point {
      */
     public Point getSymmetric(Point middle) {
         return new Point(2 * middle.x - x, 2 * middle.y - y);
+    }
+
+    @Override
+    public int compareTo(Point p) {
+        if (equals(p)) {
+            return 0;
+        }
+        if (x < p.x || (abs(x - p.x) < EPS && y < p.x)) {
+            return -1;
+        }
+        return 1;
     }
 }
