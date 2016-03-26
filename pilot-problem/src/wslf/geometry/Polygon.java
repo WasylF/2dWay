@@ -1,5 +1,8 @@
 package wslf.geometry;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Wsl_F
@@ -99,5 +102,46 @@ public class Polygon {
 
         return (plus == 0 || plus == vertexes.length);
 
+    }
+
+    /**
+     *
+     * @return array of polygon's vertexes
+     */
+    public Point[] toPoints() {
+        return vertexes.clone();
+    }
+
+    /**
+     * returns list of polygon's vertexes
+     *
+     * @param list result
+     */
+    public void toPointsList(List<Point> list) {
+        list = Arrays.asList(vertexes);
+    }
+
+    /**
+     * @return array of sequential segments
+     */
+    public Segment[] toSegments() {
+        Segment[] segments = new Segment[vertexes.length];
+
+        segments[vertexes.length - 1] = new Segment(vertexes[vertexes.length - 1], vertexes[0]);
+
+        for (int i = vertexes.length - 2; i >= 0; i--) {
+            segments[i] = new Segment(vertexes[i], vertexes[i + 1]);
+        }
+
+        return segments;
+    }
+
+    /**
+     * return list of sequential segments
+     * @param list result
+     */
+    public void toSegments(List<Segment> list) {
+        list.clear();
+        list.addAll(Arrays.asList(toSegments()));
     }
 }
