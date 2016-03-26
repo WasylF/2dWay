@@ -14,4 +14,12 @@ class Constants {
      * epsilon angle in radians
      */
     static final double EPS_ANGLE = 1e-3;
+    /**
+     * Prime number for hash code
+     */
+    static final long BIG_PRIME= 5915587277L;
+    /** 
+     * Prime number for hash code
+     */
+    static final long LOW_PRIME= 97;
 }

@@ -41,6 +41,13 @@ public class Polygon {
         return equals((Polygon) obj);
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Arrays.deepHashCode(this.vertexes);
+        return hash;
+    }
+
     public boolean equals(Polygon p) {
         if (getSize() != p.getSize()) {
             return false;
@@ -72,7 +79,7 @@ public class Polygon {
     }
 
     /**
-     * check does the point belongs to this polygon
+     * check does the point belongs (inside or in border) to this polygon
      *
      * @param p Point
      * @return true if point inside or on border of polygon

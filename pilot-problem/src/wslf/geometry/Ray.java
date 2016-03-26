@@ -1,5 +1,7 @@
 package wslf.geometry;
 
+import java.util.Objects;
+
 /**
  *
  * @author Wsl_F
@@ -38,6 +40,14 @@ public class Ray {
         }
 
         return equals((Ray) obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.p);
+        hash = 37 * hash + Objects.hashCode(this.v);
+        return hash;
     }
 
     /**

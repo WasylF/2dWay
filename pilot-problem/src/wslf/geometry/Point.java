@@ -43,6 +43,20 @@ public class Point implements Comparable<Point> {
         return equals((Point) obj);
     }
 
+    @Override
+    public int hashCode() {
+        long X = (long) (x + EPS);
+        long Y = (long) (y + EPS);
+        X = X * BIG_PRIME ^ X * LOW_PRIME;
+        Y = Y * BIG_PRIME ^ Y * LOW_PRIME;
+
+        long hash = LOW_PRIME;
+        hash = (LOW_PRIME * hash + (X ^ (Y >>> 32))) % BIG_PRIME;
+        hash = (LOW_PRIME * hash + (Y ^ (X >>> 32))) % BIG_PRIME;
+
+        return (int) (hash % Integer.MAX_VALUE);
+    }
+
     public boolean equals(Point p) {
         return (abs(p.x - x) + abs(p.y - y) < EPS);
     }

@@ -1,5 +1,7 @@
 package wslf.geometry;
 
+import java.util.Objects;
+
 /**
  *
  * @author Wsl_F
@@ -24,6 +26,7 @@ public class Segment implements Comparable<Segment> {
         return "[" + a + ";" + b + "]";
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -33,6 +36,14 @@ public class Segment implements Comparable<Segment> {
         }
 
         return equals((Segment) obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.a);
+        hash = 41 * hash + Objects.hashCode(this.b);
+        return hash;
     }
 
     public boolean equals(Segment s) {

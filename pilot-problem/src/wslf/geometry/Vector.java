@@ -228,4 +228,10 @@ public class Vector extends Point {
         return getAngle(new Vector(1, 0));
     }
 
+    @Override
+    public int hashCode() {
+        long hash = super.hashCode();
+        return (int) (hash*BIG_PRIME % Integer.MAX_VALUE);
+    }
+
 }

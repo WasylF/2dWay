@@ -62,6 +62,23 @@ public class LineABC {
         return equals((LineABC) obj);
     }
 
+    @Override
+    public int hashCode() {
+        long A = (long) (a + EPS);
+        long B = (long) (b + EPS);
+        long C = (long) (c + EPS);
+        A = A * BIG_PRIME ^ A * LOW_PRIME;
+        B = B * BIG_PRIME ^ B * LOW_PRIME;
+        C = C * BIG_PRIME ^ C * LOW_PRIME;
+
+        long hash = LOW_PRIME;
+        hash = (LOW_PRIME * hash + (A ^ (B >>> 32))) % BIG_PRIME;
+        hash = (LOW_PRIME * hash + (B ^ (C >>> 32))) % BIG_PRIME;
+        hash = (LOW_PRIME * hash + (C ^ (A >>> 32))) % BIG_PRIME;
+
+        return (int) (hash % Integer.MAX_VALUE);
+    }
+
     public boolean equals(LineABC line) {
         return isDeterminantZero(a, b, line.a, line.b)
                 && isDeterminantZero(a, c, line.a, line.c)
