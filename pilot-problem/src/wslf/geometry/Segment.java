@@ -4,7 +4,7 @@ package wslf.geometry;
  *
  * @author Wsl_F
  */
-public class Segment implements Comparable<Segment>{
+public class Segment implements Comparable<Segment> {
 
     Point a;
     Point b;
@@ -51,6 +51,9 @@ public class Segment implements Comparable<Segment>{
      * @return
      */
     public boolean contains(Point p) {
+        if (p == null) {
+            return false;
+        }
         if (a.equals(p) || b.equals(p)) {
             return true;
         }
@@ -109,30 +112,46 @@ public class Segment implements Comparable<Segment>{
         Point p = line1.getIntersection(line2);
         return p;
     }
-    
+
+    /**
+     * Calculate intersection of segment and line
+     *
+     * @param line line
+     * @return intersection point if exists, else - null
+     */
+    public Point getIntersection(LineABC line) {
+        LineABC line1 = new LineABC(this);
+
+        Point p = line.getIntersection(line1);
+        if (!contains(p)) {
+            p = null;
+        }
+        return p;
+    }
+
     /**
      * swaps points if a on right side of b
      */
-    public void orders()
-    {
-        if (a.compareTo(b) == -1)
-        {
+    public void orders() {
+        if (a.compareTo(b) == -1) {
             Point t;
-            t= a;
-            a= b;
-            b= t;
+            t = a;
+            a = b;
+            b = t;
         }
     }
 
     @Override
     public int compareTo(Segment sg) {
-        int c1= a.compareTo(sg.a);
-        int c2= b.compareTo(sg.b);
-        if (c1==0 && c2==0) return 0;
-        if (c1==-1 || (c1==0 && c2==-1)) {
+        int c1 = a.compareTo(sg.a);
+        int c2 = b.compareTo(sg.b);
+        if (c1 == 0 && c2 == 0) {
+            return 0;
+        }
+        if (c1 == -1 || (c1 == 0 && c2 == -1)) {
             return -1;
-        } 
-        
-        return  1;
-     }
+        }
+
+        return 1;
+    }
 }
