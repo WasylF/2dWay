@@ -11,9 +11,17 @@ public class Segment implements Comparable<Segment> {
     Point a;
     Point b;
 
+    public Point getA() {
+        return a;
+    }
+    
+    public Point getB() {
+        return b;
+    }
+    
     public Segment(Point a, Point b) {
-        this.a = a;
-        this.b = b;
+        this.a = new Point(a);
+        this.b = new Point(b);
     }
 
     public Segment(double x1, double y1, double x2, double y2) {
