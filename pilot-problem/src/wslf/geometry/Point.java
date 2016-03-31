@@ -9,9 +9,17 @@ import static java.lang.Math.*;
  */
 public class Point implements Comparable<Point> {
 
-    double x;
+    double x; 
     double y;
 
+    public double getX() {
+        return x;
+    }
+    
+    public double  getY() {
+        return y;
+    }
+            
     public Point() {
         this.x = 0;
         this.y = 0;
