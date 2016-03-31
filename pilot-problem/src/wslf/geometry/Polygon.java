@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -129,6 +130,16 @@ public class Polygon {
     }
 
     /**
+     *
+     * @return list of polygon's vertexes
+     */
+    public ArrayList<Point> getPointsList() {
+        ArrayList<Point> list = new ArrayList<>();
+        list.addAll(Arrays.asList(vertexes));
+        return list;
+    }
+
+    /**
      * @return array of sequential segments
      */
     public Segment[] toSegments() {
@@ -145,10 +156,21 @@ public class Polygon {
 
     /**
      * return list of sequential segments
+     *
      * @param list result
      */
     public void toSegments(List<Segment> list) {
         list.clear();
         list.addAll(Arrays.asList(toSegments()));
+    }
+    
+    /**
+     * 
+     * @return list of sequential segments 
+     */
+    public ArrayList<Segment> getSegmentsList() {
+        ArrayList<Segment> list= new ArrayList<>();
+        list.addAll(Arrays.asList(toSegments()));
+        return list;
     }
 }
