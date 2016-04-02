@@ -26,6 +26,13 @@ public class Ray {
         this.v = new Vector(ray.v);
     }
 
+    public void setVector(Vector vector) {
+        this.v = vector;
+    }
+    
+    public void setPoint(Point point) {
+       this.p= point;
+    }
     @Override
     public String toString() {
         return "< " + p.toString() + "   " + v.toString() + " >";
