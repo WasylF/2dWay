@@ -152,7 +152,7 @@ public class Segment implements Comparable<Segment> {
      * swaps points if a on right side of b
      */
     public void orders() {
-        if (a.compareTo(b) == -1) {
+        if (a.compareTo(b) == 1) {
             Point t;
             t = a;
             a = b;

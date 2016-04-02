@@ -151,6 +151,10 @@ public class Polygon {
             segments[i] = new Segment(vertexes[i], vertexes[i + 1]);
         }
 
+        for (Segment segment : segments) {
+            segment.orders();
+        }
+        
         return segments;
     }
 

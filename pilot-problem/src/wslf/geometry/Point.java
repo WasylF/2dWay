@@ -88,7 +88,7 @@ public class Point implements Comparable<Point> {
         if (equals(p)) {
             return 0;
         }
-        if (x < p.x || (abs(x - p.x) < EPS && y < p.x)) {
+        if (x < p.x || (abs(x - p.x) < EPS && y < p.y)) {
             return -1;
         }
         return 1;
