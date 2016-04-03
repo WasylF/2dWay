@@ -9,17 +9,17 @@ import static java.lang.Math.*;
  */
 public class Point implements Comparable<Point> {
 
-    double x; 
+    double x;
     double y;
 
     public double getX() {
         return x;
     }
-    
-    public double  getY() {
+
+    public double getY() {
         return y;
     }
-            
+
     public Point() {
         this.x = 0;
         this.y = 0;
@@ -92,5 +92,54 @@ public class Point implements Comparable<Point> {
             return -1;
         }
         return 1;
+    }
+
+    /**
+     * compare points by clockwise. if points have the same angle than sorts by
+     * distance to the {@code heatingPoint}
+     *
+     * @param p second point
+     * @param heatingPoint center of clocks
+     * @return -1 if {@code this} earlier than {@code p}, 1 if {@code p} earlier
+     * than {@code this}, 0 if points the same.
+     */
+    public int compareByClockwise(Point p, Point heatingPoint) {
+        Ray ray = new Ray(heatingPoint, new Vector(0, 1));
+        double angle1 = ray.getAngle360(this);
+        double angle2 = ray.getAngle360(p);
+
+        if (abs(angle1 - angle2) < Constants.EPS_ANGLE) {
+            double d1 = heatingPoint.distance(this);
+            double d2 = heatingPoint.distance(p);
+            if (abs(d1 - d2) < EPS) {
+                return 0;
+            }
+            return d1 < d2 ? -1 : 1;
+        }
+
+        if (abs(angle1) < EPS_ANGLE || abs(angle2) < EPS_ANGLE) {
+            return abs(angle1) < EPS_ANGLE ? -1 : 1;
+        }
+
+        return angle1 > angle2 ? -1 : 1;
+    }
+
+    /**
+     * swaps points
+     *
+     * @param p second point
+     */
+    public void swap(Point p) {
+        if (this == p) {
+            return;
+        }
+        double xt = p.x;
+        double yt = p.y;
+
+        p.x = this.x;
+        p.y = this.y;
+
+        this.x = xt;
+        this.y = yt;
     }
 }

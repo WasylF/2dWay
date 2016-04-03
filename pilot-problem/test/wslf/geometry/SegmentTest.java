@@ -121,4 +121,26 @@ public class SegmentTest {
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testOrdersByClockwise() {
+        System.out.println("ordersByClockwise");
+        Point first = new Point(1, 1);
+        Point second = new Point(1, -1);
+        Segment instance = new Segment(second, first);
+        instance.ordersByClockwise(new Point(0, 0));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
+    @Test
+    public void testOrdersByClockwise2() {
+        System.out.println("ordersByClockwise");
+        Point first = new Point(1, 1);
+        Point second = new Point(1, -1);
+        Segment instance = new Segment(first, second);
+        instance.ordersByClockwise(new Point(0, 0));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
 }
