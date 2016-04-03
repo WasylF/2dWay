@@ -1,10 +1,6 @@
 package wslf.algo;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
 import wslf.geometry.*;
 
 /**
@@ -22,4 +18,19 @@ public class World {
         this.barriers = barriers;
     }
 
+    public ArrayList<Point> getPoints() {
+        ArrayList<Point> points = new ArrayList<>();
+        for (Polygon barrier : barriers) {
+            points.addAll(barrier.getPointsList());
+        }
+        return points;
+    }
+
+    public ArrayList<Segment> getSegments() {
+        ArrayList<Segment> segments = new ArrayList<>();
+        for (Polygon barrier : barriers) {
+            segments.addAll(barrier.getSegmentsList());
+        }
+        return segments;
+    }
 }
