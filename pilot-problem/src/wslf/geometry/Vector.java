@@ -28,6 +28,14 @@ public class Vector extends Point {
     }
 
     /**
+     * creates vector. begin - {@code segment.a}, end - {@code segment.b}
+     * @param segment segment
+     */
+    public Vector(Segment segment) {
+        this(segment.a, segment.b);
+    }
+
+    /**
      *
      * @param angle angle with the abscissa
      */
@@ -231,7 +239,7 @@ public class Vector extends Point {
     @Override
     public int hashCode() {
         long hash = super.hashCode();
-        return (int) (hash*BIG_PRIME % Integer.MAX_VALUE);
+        return (int) (hash * BIG_PRIME % Integer.MAX_VALUE);
     }
 
 }
