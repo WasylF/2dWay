@@ -100,10 +100,11 @@ public class Point implements Comparable<Point> {
      *
      * @param p second point
      * @param heatingPoint center of clocks
+     * @param revers false - in clockwise order, true in counterclockwise order
      * @return -1 if {@code this} earlier than {@code p}, 1 if {@code p} earlier
      * than {@code this}, 0 if points the same.
      */
-    public int compareByClockwise(Point p, Point heatingPoint) {
+    public int compareByClockwise(Point p, Point heatingPoint, boolean revers) {
         Ray ray = new Ray(heatingPoint, new Vector(0, 1));
         double angle1 = ray.getAngle360(this);
         double angle2 = ray.getAngle360(p);
@@ -121,7 +122,8 @@ public class Point implements Comparable<Point> {
             return abs(angle1) < EPS_ANGLE ? -1 : 1;
         }
 
-        return angle1 > angle2 ? -1 : 1;
+        int res = revers ? 1 : -1;
+        return angle1 > angle2 ? res : -res;
     }
 
     /**

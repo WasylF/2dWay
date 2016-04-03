@@ -107,7 +107,7 @@ public class PointTest {
         Point p = new Point(1, 0);
 
         int expResult = -1;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
     }
@@ -120,7 +120,7 @@ public class PointTest {
         Point p = new Point(1, 0);
 
         int expResult = 1;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
     }
@@ -133,7 +133,7 @@ public class PointTest {
         Point p = new Point(0, 2);
 
         int expResult = -1;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
     }
@@ -146,7 +146,7 @@ public class PointTest {
         Point p = new Point(0, 0.5);
 
         int expResult = 1;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
     }
@@ -159,7 +159,7 @@ public class PointTest {
         Point p = new Point(-1, -1);
 
         int expResult = -1;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
     }
@@ -172,7 +172,85 @@ public class PointTest {
         Point p = new Point(7, 8);
 
         int expResult = 0;
-        int result = instance.compareByClockwise(p, heatingPoint);
+        int result = instance.compareByClockwise(p, heatingPoint, false);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise7() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(0, 1);
+        Point p = new Point(-0.1, 1);
+
+        int expResult = -1;
+        int result = instance.compareByClockwise(p, heatingPoint, false);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise8() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(-0.1, 1);
+        Point p = new Point(0, 1);
+
+        int expResult = 1;
+        int result = instance.compareByClockwise(p, heatingPoint, false);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise9() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(0, 1);
+        Point p = new Point(-0.1, 1);
+
+        int expResult = -1;
+        int result = instance.compareByClockwise(p, heatingPoint, true);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise10() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(-0.1, 1);
+        Point p = new Point(0, 1);
+
+        int expResult = 1;
+        int result = instance.compareByClockwise(p, heatingPoint, true);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise11() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(-1, 1);
+        Point p = new Point(-2, 1);
+
+        int expResult = -1;
+        int result = instance.compareByClockwise(p, heatingPoint, true);
+
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise12() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(0, 0);
+        Point instance = new Point(-1, 100);
+        Point p = new Point(-1, 200);
+
+        int expResult = 1;
+        int result = instance.compareByClockwise(p, heatingPoint, true);
 
         assertEquals(expResult, result);
     }
@@ -180,11 +258,11 @@ public class PointTest {
     @Test
     public void testSwap() {
         System.out.println("swap");
-        Point instance= new Point(0,0);
-        Point p= new Point(1,1);
+        Point instance = new Point(0, 0);
+        Point p = new Point(1, 1);
         instance.swap(p);
-        
-        assertEquals(new Point(1,1), instance);
-        assertEquals(new Point(0,0), p);
+
+        assertEquals(new Point(1, 1), instance);
+        assertEquals(new Point(0, 0), p);
     }
 }
