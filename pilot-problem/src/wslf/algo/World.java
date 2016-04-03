@@ -18,6 +18,10 @@ public class World {
         this.barriers = barriers;
     }
 
+    /**
+     *
+     * @return all vertices of all polygons (barriers) in the world
+     */
     public ArrayList<Point> getPoints() {
         ArrayList<Point> points = new ArrayList<>();
         for (Polygon barrier : barriers) {
@@ -26,6 +30,10 @@ public class World {
         return points;
     }
 
+    /**
+     *
+     * @return all segments (edges) of all polygons (barriers) in the world
+     */
     public ArrayList<Segment> getSegments() {
         ArrayList<Segment> segments = new ArrayList<>();
         for (Polygon barrier : barriers) {
