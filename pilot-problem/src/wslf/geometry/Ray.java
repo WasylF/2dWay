@@ -29,10 +29,19 @@ public class Ray {
     public void setVector(Vector vector) {
         this.v = vector;
     }
-    
+
     public void setPoint(Point point) {
-       this.p= point;
+        this.p = point;
     }
+
+    public Point getPoint() {
+        return p;
+    }
+
+    public Vector getVector() {
+        return v;
+    }
+
     @Override
     public String toString() {
         return "< " + p.toString() + "   " + v.toString() + " >";
