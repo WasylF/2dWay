@@ -1,9 +1,5 @@
 package wslf.geometry;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,22 +10,6 @@ import static org.junit.Assert.*;
 public class PolygonTest {
 
     public PolygonTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -95,13 +75,12 @@ public class PolygonTest {
     public void testContains() {
         System.out.println("contains");
         Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4), new Point(0, 4)};
-        Point p = new Point(1,1);
+        Point p = new Point(1, 1);
         Polygon instance = new Polygon(vertexes1);
         boolean expResult = true;
         boolean result = instance.contains(p);
         assertEquals(expResult, result);
     }
-
 
     /**
      * Test of contains method, of class Polygon.
@@ -124,7 +103,7 @@ public class PolygonTest {
     public void testContains3() {
         System.out.println("contains");
         Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4), new Point(0, 4)};
-        Point p = new Point(0,0);
+        Point p = new Point(0, 0);
         Polygon instance = new Polygon(vertexes1);
         boolean expResult = true;
         boolean result = instance.contains(p);
@@ -137,9 +116,9 @@ public class PolygonTest {
     @Test
     public void testContains4() {
         System.out.println("contains");
-        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4), 
-            new Point(2,6), new Point(0, 4)};
-        Point p = new Point(2,5);
+        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4),
+            new Point(2, 6), new Point(0, 4)};
+        Point p = new Point(2, 5);
         Polygon instance = new Polygon(vertexes1);
         boolean expResult = true;
         boolean result = instance.contains(p);
@@ -152,29 +131,28 @@ public class PolygonTest {
     @Test
     public void testContains5() {
         System.out.println("contains");
-        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4), 
+        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4),
             new Point(0, 4)};
-        Point p = new Point(2,5);
-        Polygon instance = new Polygon(vertexes1);
-        boolean expResult = false;
-        boolean result = instance.contains(p);
-        assertEquals(expResult, result);
-    }
-    
-    /**
-     * Test of contains method, of class Polygon.
-     */
-    @Test
-    public void testContains6() {
-        System.out.println("contains");
-        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4), 
-            new Point(2,6), new Point(0, 4)};
-        Point p = new Point(2,7);
+        Point p = new Point(2, 5);
         Polygon instance = new Polygon(vertexes1);
         boolean expResult = false;
         boolean result = instance.contains(p);
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of contains method, of class Polygon.
+     */
+    @Test
+    public void testContains6() {
+        System.out.println("contains");
+        Point[] vertexes1 = {new Point(0, 0), new Point(4, 0), new Point(4, 4),
+            new Point(2, 6), new Point(0, 4)};
+        Point p = new Point(2, 7);
+        Polygon instance = new Polygon(vertexes1);
+        boolean expResult = false;
+        boolean result = instance.contains(p);
+        assertEquals(expResult, result);
+    }
 
 }

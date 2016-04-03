@@ -1,9 +1,5 @@
 package wslf.geometry;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,22 +12,6 @@ import static wslf.geometry.Constants.*;
 public class MathTest {
 
     public MathTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
@@ -85,8 +65,8 @@ public class MathTest {
     @Test
     public void testDeterminant_Point_Point() {
         System.out.println("determinant");
-        Point p1 = new Point(2,3);
-        Point p2 = new Point(5,6);
+        Point p1 = new Point(2, 3);
+        Point p2 = new Point(5, 6);
         double expResult = -3;
         double result = Math.determinant(p1, p2);
         assertEquals(expResult, result, 0.0);
@@ -98,8 +78,8 @@ public class MathTest {
     @Test
     public void testIsDeterminantZero_Point_Point() {
         System.out.println("isDeterminantZero");
-        Point p1 = new Point(25,30);
-        Point p2 = new Point(30,35);
+        Point p1 = new Point(25, 30);
+        Point p2 = new Point(30, 35);
         boolean expResult = false;
         boolean result = Math.isDeterminantZero(p1, p2);
         assertEquals(expResult, result);
