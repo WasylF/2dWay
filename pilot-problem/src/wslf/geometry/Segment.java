@@ -56,7 +56,7 @@ public class Segment implements Comparable<Segment> {
     }
 
     public boolean equals(Segment s) {
-        return (a.equals(s.a) && b.equals(b))
+        return (a.equals(s.a) && b.equals(s.b))
                 || (a.equals(s.b) && b.equals(s.a));
     }
 

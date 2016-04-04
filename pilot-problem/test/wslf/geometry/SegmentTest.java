@@ -71,6 +71,149 @@ public class SegmentTest {
     }
 
     /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment2() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4);
+        Segment instance = new Segment(1, 2.1, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment3() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4);
+        Segment instance = new Segment(1, 2.1, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment4() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4);
+        Segment instance = new Segment(1, 2, 3.1, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment5() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4);
+        Segment instance = new Segment(1, 2, 3, 4.1);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment6() {
+        System.out.println("equals");
+        Segment s = new Segment(1.1, 2, 3, 4);
+        Segment instance = new Segment(1, 2, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment7() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2.1, 3, 4);
+        Segment instance = new Segment(1, 2, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment8() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3.1, 4);
+        Segment instance = new Segment(1, 2, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment9() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4.1);
+        Segment instance = new Segment(1, 2, 3, 4);
+        boolean expResult = false;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment10() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4.1);
+        Segment instance = new Segment(1, 2, 3, 4.1);
+        boolean expResult = true;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment11() {
+        System.out.println("equals");
+        Segment s = new Segment(1, 2, 3, 4.1);
+        Segment instance = new Segment(3, 4.1, 1, 2);
+        boolean expResult = true;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of equals method, of class Segment.
+     */
+    @Test
+    public void testEquals_Segment12() {
+        System.out.println("equals");
+        Segment s = new Segment(3, 4.5, 1, 2.1);
+        Segment instance = new Segment(1, 2.1, 3, 4.5);
+        boolean expResult = true;
+        boolean result = instance.equals(s);
+        assertEquals(expResult, result);
+    }
+
+    /**
      * Test of length method, of class Segment.
      */
     @Test
