@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import static java.lang.Math.abs;
 import java.util.Objects;
 
 /**
@@ -81,11 +82,12 @@ public class Ray {
         if (point == null) {
             return false;
         }
-        return v.getAngle(new Vector(this.p, point)) < Constants.EPS_ANGLE;
+        return abs(v.getAngle(new Vector(this.p, point))) < Constants.EPS_ANGLE;
     }
 
     /**
-     * find intersection of Ray and segment. If doesn't exists - null
+     * find intersection of Ray and segment. If doesn't exists - null. if
+     * segment {@code sg} is "collinear" {@code this} ray, return closest point.
      *
      * @param sg segment
      * @return
@@ -93,6 +95,20 @@ public class Ray {
     public Point getIntersection(Segment sg) {
         LineABC line = new LineABC(p, v);
         Point point = sg.getIntersection(line);
+        // process "collinear" segment
+        if (point == null) {
+            boolean cont1 = contains(sg.a);
+            boolean cont2 = contains(sg.b);
+            if (cont1 || cont2) {
+                if (cont1 && cont2) {
+                    point = p.distance(sg.a) < p.distance(sg.b) ? sg.a : sg.b;
+                } else {
+                    point = new Point(p);
+                }
+            } else {
+                return null;
+            }
+        }
         if (!sg.contains(point) || !contains(point)) {
             point = null;
         }
