@@ -54,7 +54,7 @@ public class Visibility {
      * vertxe №i
      */
     private ArrayList<ArrayList<Integer>> vertexToSegments;
-
+    
     public Visibility(World world) {
         this.world = world;
         getSegments();
@@ -63,9 +63,9 @@ public class Visibility {
 
         // 2 aditional for start and finish points
         visGraph = new ArrayList<>(nVertex + 2);
-
+        
     }
-
+    
     private void getSegments() {
         this.segments = new ArrayList<>();//world.getSegments();
 
@@ -77,11 +77,11 @@ public class Visibility {
             }
         }
     }
-
+    
     private void enumarateVertices() {
         this.vertices = world.getPoints();
         nVertex = vertices.size();
-
+        
         pointNumber = new HashMap<>();
         for (int i = 0; i < nVertex; i++) {
             if (!pointNumber.containsKey(vertices.get(i))) {
@@ -89,13 +89,13 @@ public class Visibility {
             }
         }
     }
-
+    
     private void matchSegmentsToVertices() {
         vertexToSegments = new ArrayList<>(nVertex);
         for (int i = 0; i < nVertex; i++) {
             vertexToSegments.add(new ArrayList<>());
         }
-
+        
         for (int i = 0; i < segments.size(); i++) {
             vertexToSegments.get(pointNumber.get(segments.get(i).getA())).add(i);
             vertexToSegments.get(pointNumber.get(segments.get(i).getB())).add(i);
@@ -108,9 +108,9 @@ public class Visibility {
      *
      * @param heatingPoint center of clocks
      */
-    private void ordersSegmentsClockwise(Point heatingPoint) {
+    private void ordersSegmentsClockwise(Point heatingPoint, boolean reversed) {
         for (Segment segment : segments) {
-            segment.ordersByClockwise(heatingPoint);
+            segment.ordersByClockwise(heatingPoint, reversed);
         }
     }
 
@@ -118,21 +118,21 @@ public class Visibility {
      * comparator for sorting points on clockwise
      */
     public class PointsAngleComparator implements Comparator<Integer> {
-
+        
         private final Point heatingPoint;
         private final boolean reversed;
-
+        
         public PointsAngleComparator(Ray ray, boolean rev) {
             this.heatingPoint = ray.getPoint();
             this.reversed = rev;
         }
-
+        
         @Override
         public int compare(Integer p1, Integer p2) {
             return vertices.get(p1).compareByClockwise(vertices.get(p2), heatingPoint, reversed);
             //return reversed ? -cmp : cmp;
         }
-
+        
     };
 
     /**
@@ -140,13 +140,13 @@ public class Visibility {
      * intersection. ray should intersects segments.
      */
     public class SegmentsDistComparator implements Comparator<Integer> {
-
+        
         public SegmentsDistComparator(Ray ray) {
             this.ray = ray;
         }
-
+        
         public Ray ray;
-
+        
         @Override
         public int compare(Integer sg1, Integer sg2) {
             double d1 = ray.distToIntersection(segments.get(sg1));
@@ -156,7 +156,7 @@ public class Visibility {
             if (d1 < 0 || d2 < 0) {
                 return d1 < 0 ? 1 : -1;
             }
-
+            
             if (abs(d1 - d2) < EPS) {
                 Point p = ray.getPoint();
                 d1 = p.distance(segments.get(sg1).getA()) + p.distance(segments.get(sg1).getB());
@@ -169,10 +169,10 @@ public class Visibility {
                     }
                 }
             }
-
+            
             return (d1 < d2) ? -1 : 1;
         }
-
+        
     };
 
     /**
@@ -183,12 +183,13 @@ public class Visibility {
      */
     public LinkedList<Integer> getVisible(Point heatingPoint) {
         HashSet<Integer> visible = new HashSet<>();
-        ordersSegmentsClockwise(heatingPoint);
-
+        
+        ordersSegmentsClockwise(heatingPoint, true);
         visible.addAll(getVisibleLeft(heatingPoint));
-
+        
+        ordersSegmentsClockwise(heatingPoint, false);
         visible.addAll(getVisibleRight(heatingPoint));
-
+        
         return new LinkedList<>(visible);
     }
 
@@ -206,7 +207,7 @@ public class Visibility {
                 points.add(pN);
             }
         }
-
+        
         if (points.isEmpty()) {
             return new LinkedList<>();
         }
@@ -227,74 +228,84 @@ public class Visibility {
                 points.add(pN);
             }
         }
-
+        
         if (points.isEmpty()) {
             return new LinkedList<>();
         }
         return getVisible(heatingPoint, points, true);
     }
-
-    private LinkedList<Integer> getVisible(Point heatingPoint, ArrayList<Integer> points, boolean reversed) {
-        // vertical ray
-        Ray ray = new Ray(heatingPoint, new Vector(0, 1));
+    
+    private void initPoints_Status(Point heatingPoint, ArrayList<Integer> points,
+            TreeSet<Integer> status, Ray ray, boolean reversed) {
         Collections.sort(points, new PointsAngleComparator(ray, reversed));
 
         // rotate ray on first point 
         Point firstPoint = vertices.get(points.get(0));
         ray.setVector(new Vector(heatingPoint, firstPoint));
-
-        TreeSet<Integer> status = new TreeSet<>(new SegmentsDistComparator(ray));
+        
         for (int i = 0; i < segments.size(); i++) {
             if (ray.isIntersects(segments.get(i)) || segments.get(i).contains(firstPoint)) {
                 status.add(i);
             }
         }
+    }
+    
+    private void processVertex(int i, Point heatingPoint, Ray ray,
+            ArrayList<Integer> points,
+            TreeSet<Integer> status,
+            LinkedList<Integer> visible) {
+        int curPointN = points.get(i);
+        Point curPoint = vertices.get(curPointN);
+        
+        Segment closest = segments.get(status.first());// HERE!!!!!
+        Segment segment = new Segment(heatingPoint, curPoint);
+        
+        printDebug(i, status, points.size() - 1, curPointN, curPoint, closest);
+        ray.setVector(new Vector(segment));
+        if (!segment.isIntersect(closest)
+                || abs(heatingPoint.distance(curPoint) - ray.distToIntersection(closest)) < EPS) {
+            visible.add(curPointN);
+        }
 
-        LinkedList<Integer> visible = new LinkedList<>();
-        int poitsSize = points.size();
-        points.add(points.get(0));
-        for (int i = 0; i < poitsSize; i++) {
-            System.out.println("\n\n" + i + ")  of " + poitsSize);
-            int curPointN = points.get(i);
-            Point curPoint = vertices.get(curPointN);
-
-            Segment closest = segments.get(status.first());// HERE!!!!!
-            Segment segment = new Segment(heatingPoint, curPoint);
-
-            System.out.println("current status:");
-            for (Integer s : status) {
-                System.out.println(s + ":  " + segments.get(s));
-            }
-            System.out.println("closest: " + closest);
-            System.out.println("\ncurPoint: " + curPointN + " :  " + curPoint);
-            if (!segment.isIntersect(closest) || closest.contains(curPoint)) {
-                visible.add(curPointN);
-            }
-
-            ray.setVector(new Vector(segment));
-
-            for (Integer sg : vertexToSegments.get(curPointN)) {
-                if (segments.get(sg).getB().equals(curPoint)) {
-                    if (reversed) {
-                        status.add(sg);
-                    } else {
-                        status.remove(sg);
-                    }
-                }
-            }
-
-            for (Integer sg : vertexToSegments.get(curPointN)) {
-                if (segments.get(sg).getA().equals(curPoint)) {
-                    if (reversed) {
-                        status.remove(sg);
-                    } else {
-                        status.add(sg);
-                    }
-                }
+        // erase "incoming" edges
+        for (Integer sg : vertexToSegments.get(curPointN)) {
+            if (segments.get(sg).getB().equals(curPoint)) {
+                status.remove(sg);
             }
         }
 
+        // add "outgoing" edges
+        for (Integer sg : vertexToSegments.get(curPointN)) {
+            if (segments.get(sg).getA().equals(curPoint)) {
+                status.add(sg);
+            }
+        }
+    }
+    
+    private LinkedList<Integer> getVisible(Point heatingPoint, ArrayList<Integer> points, boolean reversed) {
+        // vertical ray
+        Ray ray = new Ray(heatingPoint, new Vector(0, 1));
+        TreeSet<Integer> status = new TreeSet<>(new SegmentsDistComparator(ray));
+        initPoints_Status(heatingPoint, points, status, ray, reversed);
+        
+        LinkedList<Integer> visible = new LinkedList<>();
+        int pointsSize = points.size();
+        points.add(points.get(0));
+        for (int i = 0; i < pointsSize; i++) {
+            processVertex(i, heatingPoint, ray, points, status, visible);
+        }
+        
         return visible;
     }
-
+    
+    private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint, Segment closest) {
+        System.out.println("\n\n" + (i + 1) + ")  of " + pointsSize);
+        
+        System.out.println("current status:");
+        for (Integer s : status) {
+            System.out.println(s + ":  " + segments.get(s));
+        }
+        System.out.println("closest: " + closest);
+        System.out.println("\ncurPoint: " + curPointN + " :  " + curPoint);
+    }
 }
