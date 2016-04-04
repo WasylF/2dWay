@@ -194,4 +194,174 @@ public class VisibilityTest {
         assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
     }
 
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible8() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(-10, 20);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 2, 3));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible9() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(0, 15);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(2, 3));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible10() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(10, 15);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(3, 4, 5));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible11() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(20, 0);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(6, 5, 4));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible12() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(15, 0);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(6, 5));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible13() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(11, 0);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(6, 5));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible14() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(20, -10);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 6, 5));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible15() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(5, -10);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 6));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisible16() {
+        System.out.println("getVisible");
+        Point heatingPoint = new Point(6, -10);
+        //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
+        Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
+        Polygon polygon = new Polygon(verticies);
+        Polygon[] barriers = {polygon};
+        World world = new World(barriers);
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 5, 6));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
 }
