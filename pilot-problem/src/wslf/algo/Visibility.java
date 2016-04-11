@@ -31,6 +31,11 @@ public class Visibility {
     private ArrayList<Point> vertices;
 
     /**
+     * pointOrder[i] - index in sorted sequence of point №i
+     */
+    private Integer[] pointOrder;
+
+    /**
      * total number of all vertexes in all polygons
      */
     private int nVertex;
@@ -131,7 +136,6 @@ public class Visibility {
         @Override
         public int compare(Integer p1, Integer p2) {
             return vertices.get(p1).compareByClockwise(vertices.get(p2), heatingPoint, reversed);
-            //return reversed ? -cmp : cmp;
         }
 
     };
@@ -142,11 +146,13 @@ public class Visibility {
      */
     public class SegmentsDistComparator implements Comparator<Integer> {
 
-        public SegmentsDistComparator(Ray ray) {
+        public SegmentsDistComparator(Ray ray, boolean reversed) {
             this.ray = ray;
+            this.reversed = reversed;
         }
 
-        public Ray ray;
+        private Ray ray;
+        private boolean reversed;
 
         @Override
         public int compare(Integer sg1, Integer sg2) {
@@ -163,16 +169,29 @@ public class Visibility {
             }
 
             if (abs(d1 - d2) < EPS) {
-                Point p = ray.getPoint();
-                d1 = p.distance(segments.get(sg1).getA()) + p.distance(segments.get(sg1).getB());
-                d2 = p.distance(segments.get(sg2).getA()) + p.distance(segments.get(sg2).getB());
+                Segment segm1 = segments.get(sg1);
+                Segment segm2 = segments.get(sg2);
+                if (segm1.isIntersect(new Segment(segm2.getA(), ray.getPoint()))
+                        && segm1.isIntersect(new Segment(segm2.getB(), ray.getPoint()))) {
+                    return -1;
+                }
+                if (segm2.isIntersect(new Segment(segm1.getA(), ray.getPoint()))
+                        && segm2.isIntersect(new Segment(segm1.getB(), ray.getPoint()))) {
+                    return 1;
+                }
+
+                Integer p1A = pointNumber.get(segments.get(sg1).getA());
+                Integer p1B = pointNumber.get(segments.get(sg1).getB());
+                Integer p2A = pointNumber.get(segments.get(sg2).getA());
+                Integer p2B = pointNumber.get(segments.get(sg2).getB());
+                d1 = pointOrder[p1A] + pointOrder[p1B];
+                d2 = pointOrder[p2A] + pointOrder[p2B];
                 if (abs(d1 - d2) < EPS) {
-                    d1 = ray.getAngle(segments.get(sg1).getA()) + ray.getAngle(segments.get(sg1).getB());
-                    d2 = ray.getAngle(segments.get(sg2).getA()) + ray.getAngle(segments.get(sg2).getB());
+                    return 0;
                 }
             }
 
-            return (d1 < d2) ? -1 : 1;
+            return d1 < d2 ? -1 : 1;
         }
 
     };
@@ -242,7 +261,14 @@ public class Visibility {
             TreeSet<Integer> unvisiblePoints) {
         Collections.sort(points, new PointsAngleComparator(ray, reversed));
         int pointsSize = points.size();
+        int vertSize = vertices.size() + 10;
+        pointOrder = new Integer[vertSize];
+        for (int i = 0; i < pointOrder.length; i++) {
+            pointOrder[i] = vertSize;
+        }
+        pointOrder[points.get(0)] = 0;
         for (int i = 1; i < pointsSize; i++) {
+            pointOrder[points.get(i)] = i;
             Vector vPrev = new Vector(heatingPoint, vertices.get(points.get(i - 1)));
             Vector vCur = new Vector(heatingPoint, vertices.get(points.get(i)));
             if (vPrev.isCollinear(vCur)) {
@@ -269,20 +295,22 @@ public class Visibility {
         int curPointN = points.get(i);
         Point curPoint = vertices.get(curPointN);
 
-        Segment closest = segments.get(status.first());// HERE!!!!!
         Segment segment = new Segment(heatingPoint, curPoint);
+        boolean addToVisible = false;
+        if (status.isEmpty()) {
+            addToVisible = true;
+        } else {
+            Segment closest = segments.get(status.first());
+            addToVisible = !segment.isIntersect(closest);
+            addToVisible |= abs(heatingPoint.distance(curPoint) - ray.distToIntersection(closest)) < EPS;
+            addToVisible &= !unvisiblePoints.contains(curPointN);
+            printDebug(i, status, points.size() - 1, curPointN, curPoint, closest);
+        }
 
-        printDebug(i, status, points.size() - 1, curPointN, curPoint, closest);
-        if (!ray.getVector().equals(new Vector(segment))) {
-            ray.setVector(new Vector(segment));
+        if (addToVisible) {
+            visible.add(curPointN);
         }
-        if (!segment.isIntersect(closest)
-                || abs(heatingPoint.distance(curPoint) - ray.distToIntersection(closest)) < EPS) {
-            if (!unvisiblePoints.contains(curPointN)) {
-                visible.add(curPointN);
-            }
-        }
-        ray.setVector(new Vector(heatingPoint, vertices.get(points.get(i + 1))));
+
         // erase "incoming" edges
         for (Integer sg : vertexToSegments.get(curPointN)) {
             if (segments.get(sg).getB().equals(curPoint)) {
@@ -290,8 +318,11 @@ public class Visibility {
             }
         }
 
+        ray.setVector(
+                new Vector(heatingPoint, vertices.get(points.get(i + 1))));
         // add "outgoing" edges
-        for (Integer sg : vertexToSegments.get(curPointN)) {
+        for (Integer sg
+                : vertexToSegments.get(curPointN)) {
             if (segments.get(sg).getA().equals(curPoint)) {
                 status.add(sg);
             }
@@ -301,7 +332,7 @@ public class Visibility {
     private LinkedList<Integer> getVisible(Point heatingPoint, ArrayList<Integer> points, boolean reversed) {
         // vertical ray
         Ray ray = new Ray(heatingPoint, new Vector(0, 1));
-        TreeSet<Integer> status = new TreeSet<>(new SegmentsDistComparator(ray));
+        TreeSet<Integer> status = new TreeSet<>(new SegmentsDistComparator(ray, reversed));
         /**
          * There is possible that ray could contains few points at the same
          * time. in this case only closest point is visible.
