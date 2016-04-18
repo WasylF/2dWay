@@ -1,10 +1,6 @@
 package wslf.geometry;
 
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static wslf.geometry.Constants.*;
 import static java.lang.Math.*;
@@ -17,24 +13,6 @@ public class VectorTest extends TestCase {
 
     public VectorTest(String testName) {
         super(testName);
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    @Override
-    public void setUp() throws Exception {
-    }
-
-    @After
-    @Override
-    public void tearDown() throws Exception {
     }
 
     /**

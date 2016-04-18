@@ -7,10 +7,6 @@ package wslf.algo;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import wslf.geometry.Point;
@@ -23,22 +19,6 @@ import wslf.geometry.Polygon;
 public class VisibilityTest {
 
     public VisibilityTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**
