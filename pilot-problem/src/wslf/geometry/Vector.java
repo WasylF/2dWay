@@ -29,6 +29,7 @@ public class Vector extends Point {
 
     /**
      * creates vector. begin - {@code segment.a}, end - {@code segment.b}
+     *
      * @param segment segment
      */
     public Vector(Segment segment) {
@@ -215,7 +216,17 @@ public class Vector extends Point {
      * @return oriented angle between the vectors
      */
     public double getAngle(Vector v) {
-        return atan2(x * v.y - v.x * y, x * v.x + y * v.y);
+        double atan2Y = x * v.y - v.x * y;
+        double atan2X = x * v.x + y * v.y;
+        
+        if (abs(atan2Y) < EPS) {
+            atan2Y = EPS / 2;
+        }
+        if (abs(atan2X) < EPS) {
+            atan2X = 0;
+        }
+        
+        return atan2(atan2Y, atan2X);
     }
 
     /**
