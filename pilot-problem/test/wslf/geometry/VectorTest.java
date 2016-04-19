@@ -545,6 +545,123 @@ public class VectorTest extends TestCase {
     }
 
     /**
+     * Test of isCollinear method, of class Vector.
+     */
+    @Test
+    public void testIsCollinear_1() {
+        System.out.println("isCollinear");
+        Vector v = new Vector(0, 1);
+        Vector instance = new Vector(0, 6);
+        boolean expResult = true;
+        boolean result = instance.isCollinear(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isCollinear method, of class Vector.
+     */
+    @Test
+    public void testIsCollinear_2() {
+        System.out.println("isCollinear");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(-6, -6);
+        boolean expResult = true;
+        boolean result = instance.isCollinear(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isCollinear method, of class Vector.
+     */
+    @Test
+    public void testIsCollinear_3() {
+        System.out.println("isCollinear");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(6, 6);
+        boolean expResult = true;
+        boolean result = instance.isCollinear(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isUnidirectional method, of class Vector.
+     */
+    @Test
+    public void testIsUnidirectional_1() {
+        System.out.println("isUnidirectional");
+        Vector v = new Vector(0, 1);
+        Vector instance = new Vector(0, 6);
+        boolean expResult = true;
+        boolean result = instance.isUnidirectional(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isUnidirectional method, of class Vector.
+     */
+    @Test
+    public void testIsUnidirectional_2() {
+        System.out.println("isUnidirectional");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(-6, -6);
+        boolean expResult = false;
+        boolean result = instance.isUnidirectional(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isUnidirectional method, of class Vector.
+     */
+    @Test
+    public void testIsUnidirectional_3() {
+        System.out.println("isUnidirectional");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(6, 6);
+        boolean expResult = true;
+        boolean result = instance.isUnidirectional(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isOpposite method, of class Vector.
+     */
+    @Test
+    public void testIsOpposite_1() {
+        System.out.println("isOpposite");
+        Vector v = new Vector(0, 1);
+        Vector instance = new Vector(0, 6);
+        boolean expResult = false;
+        boolean result = instance.isOpposite(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isOpposite method, of class Vector.
+     */
+    @Test
+    public void testIsOpposite_2() {
+        System.out.println("isOpposite");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(-6, -6);
+        boolean expResult = true;
+        boolean result = instance.isOpposite(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isOpposite method, of class Vector.
+     */
+    @Test
+    public void testIsOpposite_3() {
+        System.out.println("isOpposite");
+        Vector v = new Vector(1, 1);
+        Vector instance = new Vector(6, 6);
+        boolean expResult = false;
+        boolean result = instance.isOpposite(v);
+        assertEquals(expResult, result);
+    }
+
+    /**
      * Test of normalize method, of class Vector.
      */
     @Test

@@ -1,8 +1,8 @@
 package wslf.geometry;
 
 import static java.lang.Math.*;
-import javax.swing.text.html.HTML;
 import static wslf.geometry.Constants.*;
+import static wslf.geometry.Math.*;
 
 /**
  *
@@ -210,22 +210,29 @@ public class Vector extends Point {
     }
 
     /**
-     * Calculation of oriented angle between the vectors
+     * Calculation of oriented angle between the vectors.
+     * <br>positive direction - angle by counterclockwise, negative - clockwise.
+     * <br>if (vectors is collinear)
+     * <br>{
+     * <br> if (sameDirection) returns 0;
+     * <br> else // opposite direction
+     * <br> returns PI;
+     * <br>}
      *
      * @param v second vector
-     * @return oriented angle between the vectors
+     * @return oriented angle between the vectors in range [-PI,+PI]
      */
     public double getAngle(Vector v) {
         double atan2Y = x * v.y - v.x * y;
         double atan2X = x * v.x + y * v.y;
-        
+
         if (abs(atan2Y) < EPS) {
             atan2Y = EPS / 2;
         }
         if (abs(atan2X) < EPS) {
             atan2X = 0;
         }
-        
+
         return atan2(atan2Y, atan2X);
     }
 
@@ -236,7 +243,21 @@ public class Vector extends Point {
      * @return true if angle close to zero
      */
     public boolean isUnidirectional(Vector v) {
-        return abs(getAngle(v)) < EPS_ANGLE;
+        if (!isCollinear(v)) {
+            return false;
+        }
+
+        return sgn(x) == sgn(v.x) && sgn(y) == sgn(v.y);
+    }
+
+    /**
+     * do vectors have the opposit direction?
+     *
+     * @param v
+     * @return true if angle close to PI
+     */
+    public boolean isOpposite(Vector v) {
+        return isCollinear(v) && !isUnidirectional(v);
     }
 
     /**
