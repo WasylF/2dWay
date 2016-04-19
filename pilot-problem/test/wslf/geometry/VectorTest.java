@@ -362,6 +362,54 @@ public class VectorTest extends TestCase {
     }
 
     /**
+     * Test of getAngle method, of class Vector.
+     */
+    public void testGetAngle_1() {
+        System.out.println("getAngle");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(0, -1);
+        double expResult = PI;
+        double result = instance.getAngle(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle method, of class Vector.
+     */
+    public void testGetAngle_2() {
+        System.out.println("getAngle");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(0, 2);
+        double expResult = 0;
+        double result = instance.getAngle(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle method, of class Vector.
+     */
+    public void testGetAngle_3() {
+        System.out.println("getAngle");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(EPS, -1);
+        double expResult = -PI;
+        double result = instance.getAngle(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle method, of class Vector.
+     */
+    public void testGetAngle_4() {
+        System.out.println("getAngle");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(-EPS, -1);
+        double expResult = PI;
+        double result = instance.getAngle(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
      * Test of getAngleToOX method, of class Vector.
      */
     public void testGetAngleToOX() {
