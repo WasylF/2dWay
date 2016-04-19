@@ -1,7 +1,8 @@
 package wslf.geometry;
 
-import static java.lang.Math.abs;
+import static java.lang.Math.*;
 import java.util.Objects;
+import static wslf.geometry.Math.*;
 
 /**
  *
@@ -184,8 +185,58 @@ public class Segment implements Comparable<Segment> {
      * @param reversed true - counterclockwise, false - clockwise
      */
     public void ordersByClockwise(Point heatingPoint, boolean reversed) {
-        if (a.compareByClockwise(b, heatingPoint, reversed) == 1) {
+        Vector view = new Vector(0, 1);
+        Vector hA = new Vector(heatingPoint, a);
+        Vector hB = new Vector(heatingPoint, b);
+
+        if (hA.isUnidirectional(hB)) {
+            // closest point should be first
+            if (heatingPoint.distance(b) < heatingPoint.distance(a)) {
+                a.swap(b);
+            }
+            return;
+        }
+
+        if (view.isCollinear(hA) && view.isCollinear(hB)) {
+            if (view.isUnidirectional(hA)) {
+                a.swap(b);
+            }
+            return;
+        }
+
+        double angleA = view.getAngle(hA);
+        double angleB = view.getAngle(hB);
+
+        // if segment AB doesn't intersect "view line"
+        if (sgn(angleA) == sgn(angleB)) {
+            angleA = abs(angleA);
+            angleB = abs(angleB);
+
+            if (angleB < angleA != reversed) {
+                a.swap(b);
+            }
+            return;
+        }
+
+        //segment AB intersect "view line"
+        // make angleB!=0
+        if (abs(angleB) < Constants.EPS_ANGLE) {
+            double t = angleA;
+            angleA = angleB;
+            angleB = t;
             a.swap(b);
+        }
+
+        Ray viewRay = new Ray(heatingPoint, view);
+        if (viewRay.isIntersects(this)) {
+            if (angleB < 0 == reversed) {
+                a.swap(b);
+            }
+            return;
+        } else {
+            if (angleB > 0 == reversed) {
+                a.swap(b);
+            }
         }
     }
 
