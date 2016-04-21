@@ -642,4 +642,48 @@ public class SegmentTest {
         assertEquals(second, instance.b);
     }
 
+    @Test
+    public void testOrdersByClockwise19() {
+        System.out.println("ordersByCounterclockwise");
+        Point first = new Point(13, 15);
+        Point second = new Point(14, 18);
+        Segment instance = new Segment(second, first);
+        instance.ordersByClockwise(new Point(13, 15));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
+    @Test
+    public void testOrdersByClockwise20() {
+        System.out.println("ordersByCounterclockwise");
+        Point first = new Point(13, 15);
+        Point second = new Point(12, 18);
+        Segment instance = new Segment(second, first);
+        instance.ordersByClockwise(new Point(13, 15));
+        assertEquals(first, instance.b);
+        assertEquals(second, instance.a);
+    }
+
+    @Test
+    public void testOrdersByCounterclockwise19() {
+        System.out.println("ordersByCounterclockwise");
+        Point first = new Point(13, 15);
+        Point second = new Point(14, 18);
+        Segment instance = new Segment(second, first);
+        instance.ordersByCounterclockwise(new Point(13, 15));
+        assertEquals(first, instance.b);
+        assertEquals(second, instance.a);
+    }
+
+    @Test
+    public void testOrdersByCounterclockwise20() {
+        System.out.println("ordersByCounterclockwise");
+        Point first = new Point(13, 15);
+        Point second = new Point(12, 18);
+        Segment instance = new Segment(second, first);
+        instance.ordersByCounterclockwise(new Point(13, 15));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
 }

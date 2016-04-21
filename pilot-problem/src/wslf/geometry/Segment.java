@@ -185,6 +185,18 @@ public class Segment implements Comparable<Segment> {
      * @param reversed true - counterclockwise, false - clockwise
      */
     public void ordersByClockwise(Point heatingPoint, boolean reversed) {
+        if (heatingPoint.equals(a)) {
+            if (new Vector(heatingPoint, b).x > 0 == reversed) {
+                a.swap(b);
+            }
+            return;
+        }
+        if (heatingPoint.equals(b)) {
+            if (new Vector(heatingPoint, a).x < 0 == reversed) {
+                a.swap(b);
+            }
+            return;
+        }
         Vector view = new Vector(0, 1);
         Vector hA = new Vector(heatingPoint, a);
         Vector hB = new Vector(heatingPoint, b);
