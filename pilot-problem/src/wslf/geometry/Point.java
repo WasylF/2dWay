@@ -20,6 +20,14 @@ public class Point implements Comparable<Point> {
         return y;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
     public Point() {
         this.x = 0;
         this.y = 0;
