@@ -237,6 +237,23 @@ public class Vector extends Point {
     }
 
     /**
+     * Calculation of oriented angle between the vectors by counterclockwise.
+     *
+     * <br> if (vectors are uniderctional) returns 0; (!NOT 2*PI)
+     * <br> For more details see {@code getAngle)
+     *
+     * @param v second vector
+     * @return angle in range [0;2*PI)
+     */
+    public double getAngle2PI(Vector v) {
+        double angle = getAngle(v);
+        if (angle < 0) {
+            angle += 2 * PI;
+        }
+        return angle;
+    }
+
+    /**
      * do vectors have the same direction?
      *
      * @param v

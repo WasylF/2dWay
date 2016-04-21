@@ -410,6 +410,102 @@ public class VectorTest extends TestCase {
     }
 
     /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_0() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(0, 1);
+        double expResult = 0;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_1() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(-1, 1);
+        double expResult = PI / 4;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_2() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(-1, 0);
+        double expResult = PI / 2;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_3() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(-1, -1);
+        double expResult = 3 * PI / 4;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_4() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(0, -1);
+        double expResult = PI;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_5() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(1, -1);
+        double expResult = 5 * PI / 4;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_6() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(1, 0);
+        double expResult = 3 * PI / 2;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
+     * Test of getAngle2PI method, of class Vector.
+     */
+    public void testGetAngle2PI_7() {
+        System.out.println("getAngle2PI");
+        Vector instance = new Vector(0, 1);
+        Vector v = new Vector(1, 1);
+        double expResult = 7 * PI / 4;
+        double result = instance.getAngle2PI(v);
+        assertEquals(expResult, result, EPS_ANGLE);
+    }
+
+    /**
      * Test of getAngleToOX method, of class Vector.
      */
     public void testGetAngleToOX() {
