@@ -232,6 +232,19 @@ public class SegmentTest {
     }
 
     /**
+     * Test of isIntersect method, of class Segment.
+     */
+    @Test
+    public void testIsIntersect_2() {
+        System.out.println("isIntersect");
+        Segment segm = new Segment(-2, -5, 10, -10);
+        Segment instance = new Segment(5, -5, 5, -10);
+        boolean expResult = true;
+        boolean result = instance.isIntersect(segm);
+        assertEquals(expResult, result);
+    }
+
+    /**
      * Test of getIntersection method, of class Segment.
      */
     @Test
@@ -682,6 +695,39 @@ public class SegmentTest {
         Point second = new Point(12, 18);
         Segment instance = new Segment(second, first);
         instance.ordersByCounterclockwise(new Point(13, 15));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
+    @Test
+    public void testOrdersByClockwise21() {
+        System.out.println("ordersByClockwise");
+        Point first = new Point(-7, 7);
+        Point second = new Point(-2, 7);
+        Segment instance = new Segment(second, first);
+        instance.ordersByClockwise(new Point(-7, 7));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
+    @Test
+    public void testOrdersByClockwise22() {
+        System.out.println("ordersByClockwise");
+        Point first = new Point(-2, -5);
+        Point second = new Point(-2, 7);
+        Segment instance = new Segment(second, first);
+        instance.ordersByClockwise(new Point(-2, -5));
+        assertEquals(first, instance.a);
+        assertEquals(second, instance.b);
+    }
+
+    @Test
+    public void testOrdersByClockwise23() {
+        System.out.println("ordersByClockwise");
+        Point first = new Point(-2, -5);
+        Point second = new Point(-2, 7);
+        Segment instance = new Segment(first, second);
+        instance.ordersByClockwise(new Point(-2, -5));
         assertEquals(first, instance.a);
         assertEquals(second, instance.b);
     }
