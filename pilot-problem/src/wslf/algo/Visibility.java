@@ -469,6 +469,7 @@ public class Visibility {
      */
     public ArrayList<ArrayList<Integer>> buildVisibilityGraph() {
         for (int i = vertices.size() - 1; i >= 0; i--) {
+            System.err.println("build: "+i);
             visGraph.get(i).addAll(getVisible(i));
         }
 
@@ -517,19 +518,21 @@ public class Visibility {
     }
 
     private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
-        System.out.println((i + 1) + ") of " + pointsSize);
-        System.out.println("curPoint: " + curPointN + " :  " + curPoint);
+        
+ /*        System.out.println((i + 1) + ") of " + pointsSize);
+         System.out.println("curPoint: " + curPointN + " :  " + curPoint);
 
-        System.out.println("current status:");
-        for (Integer s : status) {
-            System.out.println(s + ":  " + segments.get(s));
-        }
-        if (status.isEmpty()) {
-            System.out.println("Status is empty!");
-        } else {
-            System.out.println("closest: " + status.first() + "  -  " + segments.get(status.first()));
-        }
-        System.out.println("\n\n");
+         System.out.println("current status:");
+         for (Integer s : status) {
+         System.out.println(s + ":  " + segments.get(s));
+         }
+         if (status.isEmpty()) {
+         System.out.println("Status is empty!");
+         } else {
+         System.out.println("closest: " + status.first() + "  -  " + segments.get(status.first()));
+         }
+         System.out.println("\n\n");
+   */      
     }
 
 }
