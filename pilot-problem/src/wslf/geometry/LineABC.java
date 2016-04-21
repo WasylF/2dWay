@@ -22,14 +22,12 @@ public class LineABC {
     }
 
     public LineABC() {
-        this.a = 0;
-        this.b = 0;
-        this.c = 0;
+        this(0, 0, 0);
     }
 
     public LineABC(Point A, Point B) {
         if (A.equals(B)) {
-            throw new IllegalArgumentException("Points the same");
+            throw new IllegalArgumentException("LineABC: Points the same. Line couldn't be created");
         }
 
         a = B.y - A.y;
@@ -79,12 +77,24 @@ public class LineABC {
         return (int) (hash % Integer.MAX_VALUE);
     }
 
+    /**
+     * chech do lines the same
+     *
+     * @param line second line
+     * @return true, if lines the same
+     */
     public boolean equals(LineABC line) {
         return isDeterminantZero(a, b, line.a, line.b)
                 && isDeterminantZero(a, c, line.a, line.c)
                 && isDeterminantZero(b, c, line.b, line.c);
     }
 
+    /**
+     * check does this line equals or parallel {@code line}
+     *
+     * @param line second line
+     * @return true, if lines are parallel or the same
+     */
     public boolean isParallel(LineABC line) {
         return isDeterminantZero(a, b, line.a, line.b);
     }
@@ -93,8 +103,8 @@ public class LineABC {
      * calculate intersection point of 2 lines
      *
      * @param line second line
-     * @return intersection point if exists, 
-     * if lines the same or parallel - null
+     * @return intersection point if exists, if lines the same or parallel -
+     * null
      */
     public Point getIntersection(LineABC line) {
         if (isParallel(line)) {
