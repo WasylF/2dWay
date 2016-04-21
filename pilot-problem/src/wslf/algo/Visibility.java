@@ -5,13 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import wslf.geometry.*;
 
 import static wslf.geometry.Constants.*;
 import static java.lang.Math.*;
 import java.util.HashSet;
-import java.util.ListIterator;
 import java.util.TreeSet;
 
 /**
@@ -259,13 +257,16 @@ public class Visibility {
     private void initPoints_Status(Point heatingPoint, ArrayList<Integer> points,
             TreeSet<Integer> status, Ray ray, boolean reversed,
             TreeSet<Integer> unvisiblePoints) {
+
         Collections.sort(points, new PointsAngleComparator(ray, reversed));
         int pointsSize = points.size();
         int vertSize = vertices.size() + 10;
+
         pointOrder = new Integer[vertSize];
         for (int i = 0; i < pointOrder.length; i++) {
             pointOrder[i] = vertSize;
         }
+
         pointOrder[points.get(0)] = 0;
         for (int i = 1; i < pointsSize; i++) {
             pointOrder[points.get(i)] = i;
@@ -296,7 +297,9 @@ public class Visibility {
         Point curPoint = vertices.get(curPointN);
 
         Segment segment = new Segment(heatingPoint, curPoint);
-        boolean addToVisible = false;
+        boolean addToVisible;
+        printDebug(i, status, points.size() - 1, curPointN, curPoint);
+
         if (status.isEmpty()) {
             addToVisible = true;
         } else {
@@ -304,7 +307,6 @@ public class Visibility {
             addToVisible = !segment.isIntersect(closest);
             addToVisible |= abs(heatingPoint.distance(curPoint) - ray.distToIntersection(closest)) < EPS;
             addToVisible &= !unvisiblePoints.contains(curPointN);
-            printDebug(i, status, points.size() - 1, curPointN, curPoint, closest);
         }
 
         if (addToVisible) {
@@ -318,11 +320,10 @@ public class Visibility {
             }
         }
 
-        ray.setVector(
-                new Vector(heatingPoint, vertices.get(points.get(i + 1))));
+        ray.setVector(new Vector(heatingPoint, vertices.get(points.get(i + 1))));
+
         // add "outgoing" edges
-        for (Integer sg
-                : vertexToSegments.get(curPointN)) {
+        for (Integer sg : vertexToSegments.get(curPointN)) {
             if (segments.get(sg).getA().equals(curPoint)) {
                 status.add(sg);
             }
@@ -351,14 +352,20 @@ public class Visibility {
         return visible;
     }
 
-    private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint, Segment closest) {
-        System.out.println("\n\n" + (i + 1) + ")  of " + pointsSize);
+    private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
+        System.out.println((i + 1) + ") of " + pointsSize);
+        System.out.println("curPoint: " + curPointN + " :  " + curPoint);
 
         System.out.println("current status:");
         for (Integer s : status) {
             System.out.println(s + ":  " + segments.get(s));
         }
-        System.out.println("closest: " + closest);
-        System.out.println("\ncurPoint: " + curPointN + " :  " + curPoint);
+        if (status.isEmpty()) {
+            System.out.println("Status is empty!");
+        } else {
+            System.out.println("closest: " + status.first() + "  -  " + segments.get(status.first()));
+        }
+        System.out.println("\n\n");
     }
+
 }
