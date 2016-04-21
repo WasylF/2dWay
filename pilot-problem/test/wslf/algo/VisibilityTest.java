@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package wslf.algo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import org.junit.Test;
@@ -25,7 +21,7 @@ public class VisibilityTest {
      *
      * @return world for test cases 1 - 16
      */
-    private World getWorld1_16() {
+    static World getWorld1_16() {
         //(0,0), (5,5), (0,10), (5,12.5), (10, 10), (12.5, 5), (10, 0)
         Point[] verticies = {new Point(0, 0), new Point(5, 5), new Point(0, 10), new Point(5, 12.5), new Point(10, 10), new Point(12.5, 5), new Point(10, 0)};
         Polygon polygon = new Polygon(verticies);
@@ -294,7 +290,7 @@ public class VisibilityTest {
      *
      * @return world for test cases 17 - 51
      */
-    private World getWorld17_51() {
+    static World getWorld17_51() {
         //(6,-1), (7,3), (5,5), (8,4), (9,7), (10,3), (14,4), (11,2), (15,-2), (9,1) 
         Point[] verticies = {new Point(6, -1), new Point(7, 3), new Point(5, 5), new Point(8, 4),
             new Point(9, 7), new Point(10, 3), new Point(14, 4), new Point(11, 2),
@@ -845,7 +841,7 @@ public class VisibilityTest {
     }
 
     ////////////////////TESTS WITH 2 POLYGONS BEGINS////////////////////////////
-    private World getWorld2Polygons1() {
+    static World getWorld2Polygons1() {
         //(6,-1), (7,3), (5,5), (8,4), (9,7), (10,3), (14,4), (11,2), (15,-2), (9,1) 
         Point[] verticies1 = {new Point(6, -1), new Point(7, 3), new Point(5, 5), new Point(8, 4),
             new Point(9, 7), new Point(10, 3), new Point(14, 4), new Point(11, 2),
@@ -1204,4 +1200,70 @@ public class VisibilityTest {
         assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
     }
     //////////////////// TESTS WITH 2 POLYGONS ENDS ///////////////////////////
+
+    //////////////////// TESTS by vertex num BEGIN ///////////////////////////
+    @Test
+    public void testGetVisibleByVertexNum1() {
+        System.out.println("testGetVisibleByVertexNum");
+        World world = getWorld2Polygons1();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 1, 2, 8, 9, 10, 11));
+        LinkedList<Integer> result = instance.getVisible(0);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+    ///////////////////  TESTS by vertex num END  ///////////////////////////
+
+    static World getWorld3Polygons1() {
+        // (-7, -5), (-7, 7), (-2, 7), (-2, -5) 
+        Point[] verticies1 = {new Point(-7, -5), new Point(-7, 7), new Point(-2, 7), new Point(-2, -5)};
+        Polygon polygon1 = new Polygon(verticies1);
+
+        //(5, -10), (5,-5), (10, -5), (10, -10)
+        Point[] verticies2 = {new Point(5, -10), new Point(5, -5), new Point(10, -5), new Point(10, -10)};
+        Polygon polygon2 = new Polygon(verticies2);
+
+        // (10, 0), (15, 10), (20, 0), (15, -10)
+        Point[] verticies3 = {new Point(10, 0), new Point(15, 10), new Point(20, 0), new Point(15, -10)};
+        Polygon polygon3 = new Polygon(verticies3);
+
+        Polygon[] barriers = {polygon1, polygon2, polygon3};
+        return new World(barriers);
+    }
+
+    @Test
+    public void testBuildVisibilityGraph() {
+        System.out.println("testBuildVisibilityGraph");
+        World world = getWorld3Polygons1();
+        Visibility instance = new Visibility(world);
+
+        ArrayList<ArrayList<Integer>> expResult = new ArrayList<>();
+        expResult.add(new ArrayList<>(Arrays.asList(0, 1, 3, 4))); // 0
+        expResult.add(new ArrayList<>(Arrays.asList(0, 1, 2, 9))); // 1
+        expResult.add(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 8, 9))); // 2
+        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 3, 4, 5, 8, 9))); // 3
+
+        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 3, 4, 5, 7))); // 4
+        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 4, 5, 6, 8, 9))); // 5
+        expResult.add(new ArrayList<>(Arrays.asList(2, 5, 6, 7, 8, 11))); // 6
+        expResult.add(new ArrayList<>(Arrays.asList(4, 6, 7, 11))); // 7
+
+        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 5, 6, 8, 9, 11))); // 8
+        expResult.add(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 8, 9, 10))); // 9
+        expResult.add(new ArrayList<>(Arrays.asList(9, 10, 11))); // 10
+        expResult.add(new ArrayList<>(Arrays.asList(6, 7, 8, 10, 11))); // 11
+
+        expResult.add(new ArrayList<>());
+        expResult.add(new ArrayList<>());
+
+        ArrayList<ArrayList<Integer>> result = instance.buildVisibilityGraph();
+
+        for (int i = 0; i < 12; i++) {
+            boolean f = result.get(i).containsAll(expResult.get(i));
+            f &= expResult.get(i).containsAll(result.get(i));
+            assertTrue(f);
+        }
+
+    }
+
 }

@@ -9,6 +9,7 @@ import wslf.geometry.*;
 
 import static wslf.geometry.Constants.*;
 import static java.lang.Math.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -67,7 +68,9 @@ public class Visibility {
 
         // 2 aditional for start and finish points
         visGraph = new ArrayList<>(nVertex + 2);
-
+        for (int i = nVertex + 1; i >= 0; i--) {
+            visGraph.add(new ArrayList<>());
+        }
     }
 
     private void getSegments() {
@@ -260,30 +263,34 @@ public class Visibility {
 
         Collections.sort(points, new PointsAngleComparator(ray, reversed));
         int pointsSize = points.size();
-        int vertSize = vertices.size() + 10;
-
+        int vertSize = vertices.size();
         pointOrder = new Integer[vertSize];
         for (int i = 0; i < pointOrder.length; i++) {
             pointOrder[i] = vertSize;
         }
-
-        pointOrder[points.get(0)] = 0;
-        for (int i = 1; i < pointsSize; i++) {
+        for (int i = 0; i < pointsSize; i++) {
             pointOrder[points.get(i)] = i;
-            Vector vPrev = new Vector(heatingPoint, vertices.get(points.get(i - 1)));
-            Vector vCur = new Vector(heatingPoint, vertices.get(points.get(i)));
-            if (vPrev.isCollinear(vCur)) {
-                unvisiblePoints.add(points.get(i));
-            }
         }
 
+        addUnvisible(heatingPoint, points, ray, reversed, unvisiblePoints);
+
         Point firstPoint = vertices.get(points.get(0));
-        // rotate ray on first point 
-        ray.setVector(new Vector(heatingPoint, firstPoint));
+        if (firstPoint.equals(heatingPoint)) {
+            if (points.size() == 1) {
+                points.clear();
+                return;
+            }
+            ray.setVector(new Vector(0, 1));
+        } else {
+            // rotate ray on first point 
+            ray.setVector(new Vector(heatingPoint, firstPoint));
+        }
 
         for (int i = 0; i < segments.size(); i++) {
-            if (ray.isIntersects(segments.get(i)) || segments.get(i).contains(firstPoint)) {
-                status.add(i);
+            if (segments.get(i).contains(firstPoint) || ray.isIntersects(segments.get(i))) {
+                if (!segments.get(i).contains(heatingPoint)) {
+                    status.add(i);
+                }
             }
         }
     }
@@ -296,15 +303,16 @@ public class Visibility {
         int curPointN = points.get(i);
         Point curPoint = vertices.get(curPointN);
 
-        Segment segment = new Segment(heatingPoint, curPoint);
         boolean addToVisible;
         printDebug(i, status, points.size() - 1, curPointN, curPoint);
 
-        if (status.isEmpty()) {
+        if (status.isEmpty() || heatingPoint.equals(curPoint)) {
             addToVisible = true;
         } else {
+            Segment segment = new Segment(heatingPoint, curPoint);
             Segment closest = segments.get(status.first());
-            addToVisible = !segment.isIntersect(closest);
+            Point intersection = segment.getIntersection(closest);
+            addToVisible = intersection == null || intersection.equals(heatingPoint);
             addToVisible |= abs(heatingPoint.distance(curPoint) - ray.distToIntersection(closest)) < EPS;
             addToVisible &= !unvisiblePoints.contains(curPointN);
         }
@@ -323,14 +331,26 @@ public class Visibility {
         ray.setVector(new Vector(heatingPoint, vertices.get(points.get(i + 1))));
 
         // add "outgoing" edges
-        for (Integer sg : vertexToSegments.get(curPointN)) {
-            if (segments.get(sg).getA().equals(curPoint)) {
-                status.add(sg);
+        if (!heatingPoint.equals(curPoint)) {
+            for (Integer sg : vertexToSegments.get(curPointN)) {
+                if (segments.get(sg).getA().equals(curPoint)) {
+                    status.add(sg);
+                }
             }
         }
     }
 
     private LinkedList<Integer> getVisible(Point heatingPoint, ArrayList<Integer> points, boolean reversed) {
+        //result
+        LinkedList<Integer> visible = new LinkedList<>();
+        if (points.isEmpty()) {
+            return visible;
+        }
+        if (points.size() == 1) {
+            visible.add(points.get(0));
+            return visible;
+        }
+
         // vertical ray
         Ray ray = new Ray(heatingPoint, new Vector(0, 1));
         TreeSet<Integer> status = new TreeSet<>(new SegmentsDistComparator(ray, reversed));
@@ -342,14 +362,158 @@ public class Visibility {
         TreeSet<Integer> unvisiblePoints = new TreeSet<>();
         initPoints_Status(heatingPoint, points, status, ray, reversed, unvisiblePoints);
 
-        LinkedList<Integer> visible = new LinkedList<>();
         int pointsSize = points.size();
-        points.add(points.get(0));
+        points.add(points.get(pointsSize - 1));
         for (int i = 0; i < pointsSize; i++) {
             processVertex(i, heatingPoint, ray, points, status, visible, unvisiblePoints);
         }
+        points.remove(pointsSize);
 
         return visible;
+    }
+
+    /**
+     * calculate some unvisible points
+     *
+     * @param heatingPoint view point
+     * @param points list of vertices numbers ordered by clockwise or
+     * anticlockwise
+     * @param ray view ray
+     * @param reversed determine order: clockwise or anticlockwise. true -
+     * @param unvisiblePoints set of some unvisible vertices
+     */
+    private void addUnvisible(Point heatingPoint, ArrayList<Integer> points,
+            Ray ray, boolean reversed, TreeSet<Integer> unvisiblePoints) {
+        int pointsSize = points.size();
+        Vector vPrev, vCur;
+        if (heatingPoint.equals(vertices.get(points.get(0)))) {
+            vCur = new Vector(heatingPoint, vertices.get(points.get(1)));
+            vCur.rotateVector(1);
+        } else {
+            vCur = new Vector(heatingPoint, vertices.get(points.get(0)));
+        }
+        for (int i = 1; i < pointsSize; i++) {
+            vPrev = vCur;
+            vCur = new Vector(heatingPoint, vertices.get(points.get(i)));
+            if (vPrev.isCollinear(vCur)) {
+                unvisiblePoints.add(points.get(i));
+            }
+        }
+
+        // if heating point is vertex of some barrier 
+        int bNumber = world.getBarrierNumber(heatingPoint);
+        if (bNumber >= 0) {
+            Polygon barrier = world.getBarrier(bNumber);
+            LinkedList<Integer> neighbors
+                    = getPointsNumbers(barrier.getAdjacentVertices(heatingPoint));
+
+            if (!neighbors.isEmpty()) {
+                Collections.sort(neighbors, new PointsAngleComparator(ray, reversed));
+                //int begin = pointOrder[neighbors.getFirst()];
+                //int end = pointOrder[neighbors.getLast()];
+                Vector toBegin = new Vector(heatingPoint, vertices.get(neighbors.getFirst()));
+                Vector toEnd = new Vector(heatingPoint, vertices.get(neighbors.getLast()));
+                double angle = abs(toBegin.getAngle(toEnd));
+                for (Integer vertex : points) {
+                    if (heatingPoint.equals(vertices.get(vertex))) {
+                        continue;
+                    }
+                    Vector v = new Vector(heatingPoint, vertices.get(vertex));
+                    if (abs(v.getAngle(toBegin)) <= angle
+                            && abs(v.getAngle(toEnd)) <= angle) {
+                        unvisiblePoints.add(vertex);
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * "convert" collection from coordinates to numbers of vertices
+     *
+     * @param points collection of points
+     * @return list of numbers of vertices
+     */
+    private LinkedList<Integer> getPointsNumbers(Collection<Point> points) {
+        LinkedList<Integer> numbers = new LinkedList<>();
+        for (Point point : points) {
+            numbers.add(pointNumber.get(point));
+        }
+        return numbers;
+    }
+
+    /**
+     * find visible vertices from vertex number {@code heatingPoint}
+     *
+     * @param heatingPoint number of view point in verticies
+     * @return list of numbers of visible vertices
+     */
+    public LinkedList<Integer> getVisible(int heatingPoint) {
+        Point point = vertices.get(heatingPoint);
+        int barrierNumb = world.getBarrierNumber(point);
+        Polygon barrier = world.getBarrier(barrierNumb);
+
+        LinkedList<Point> adjacentVertices = barrier.getAdjacentVertices(point);
+        HashSet<Integer> visible = new HashSet<>(getPointsNumbers(adjacentVertices));
+        visible.add(heatingPoint);
+        visible.addAll(getVisible(point));
+
+        return new LinkedList<>(visible);
+    }
+
+    /**
+     * builds visibility graph
+     *
+     * @return visibility graph
+     */
+    public ArrayList<ArrayList<Integer>> buildVisibilityGraph() {
+        for (int i = vertices.size() - 1; i >= 0; i--) {
+            visGraph.get(i).addAll(getVisible(i));
+        }
+
+        return visGraph;
+    }
+
+    /**
+     * update {@code visGraph} to add new point
+     *
+     * @param point new point
+     * @param index index for {@code point} in visibility graph
+     */
+    private void addPointToVisGraph(Point point, int index) {
+        // delete adjacent list for previous point
+        visGraph.get(index).clear();
+
+        // add all visible points for current point
+        visGraph.get(index).addAll(getVisible(point));
+
+        // add current point to adjacents lists for all visible points
+        for (int vertex : visGraph.get(index)) {
+            visGraph.get(vertex).add(index);
+        }
+    }
+
+    /**
+     * update {@code visGraph} to add new start and finish points
+     *
+     * @param start new start point
+     * @param finish new finish point
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> updateVisibilityGraph(Point start, Point finish) {
+        int vertSize = vertices.size() - 1;
+        // delete connections to previous start/finish points
+        for (ArrayList<Integer> list : visGraph) {
+            while (!list.isEmpty() && list.get(list.size() - 1) > vertSize) {
+                list.remove(list.size() - 1);
+            }
+        }
+
+        addPointToVisGraph(start, vertSize);
+        addPointToVisGraph(finish, vertSize + 1);
+
+        return visGraph;
     }
 
     private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
