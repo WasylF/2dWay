@@ -94,7 +94,7 @@ public class Polygon {
             Vector vP = new Vector(p.x - vertices[i].x, p.y - vertices[i].y);
             switch (v.sgnMultiplyVectors(vP)) {
                 case 0:
-                    return true;
+                    return new Segment(vertices[i], vertices[i + 1]).contains(p);
                 case 1:
                     plus++;
             }
@@ -104,7 +104,7 @@ public class Polygon {
         Vector vP = new Vector(p.x - vertices[vertices.length - 1].x, p.y - vertices[vertices.length - 1].y);
         switch (v.sgnMultiplyVectors(vP)) {
             case 0:
-                return true;
+                return new Segment(vertices[vertices.length - 1], vertices[0]).contains(p);
             case 1:
                 plus++;
         }
