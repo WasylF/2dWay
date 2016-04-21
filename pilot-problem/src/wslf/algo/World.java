@@ -41,4 +41,35 @@ public class World {
         }
         return segments;
     }
+
+    /**
+     *
+     * @param point point
+     * @return number of barrier that contains {@code point} or -1 if point
+     * outside
+     */
+    public int getBarrierNumber(Point point) {
+        for (int i = 0; i < barriers.length; i++) {
+            if (barriers[i].contains(point)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Get polygon by number, or null if doesn't exist
+     *
+     * @param i number of barrier
+     * @return barrier № {@code i}
+     */
+    public Polygon getBarrier(int i) {
+        if (i < 0 || i >= barriers.length) {
+            return null;
+        }
+
+        return barriers[i];
+    }
+
 }
