@@ -189,55 +189,72 @@ public class Segment implements Comparable<Segment> {
         Vector hA = new Vector(heatingPoint, a);
         Vector hB = new Vector(heatingPoint, b);
 
-        if (hA.isUnidirectional(hB)) {
-            // closest point should be first
-            if (heatingPoint.distance(b) < heatingPoint.distance(a)) {
-                a.swap(b);
-            }
+        if (ordersByClockwiseCollinears(heatingPoint, reversed, view, hA, hB)) {
             return;
         }
 
-        if (view.isCollinear(hA) && view.isCollinear(hB)) {
-            if (view.isUnidirectional(hA)) {
-                a.swap(b);
-            }
-            return;
-        }
-
-        double angleA = view.getAngle(hA);
-        double angleB = view.getAngle(hB);
+        double angleA = view.getAngle2PI(hA);
+        double angleB = view.getAngle2PI(hB);
 
         // if segment AB doesn't intersect "view line"
-        if (sgn(angleA) == sgn(angleB)) {
-            angleA = abs(angleA);
-            angleB = abs(angleB);
-
-            if (angleB < angleA != reversed) {
+        if (sgn(a.x) == sgn(b.x)) {
+            if (angleB < angleA == reversed) {
                 a.swap(b);
             }
             return;
         }
 
         //segment AB intersect "view line"
-        // make angleB!=0
-        if (abs(angleB) < Constants.EPS_ANGLE) {
-            double t = angleA;
-            angleA = angleB;
-            angleB = t;
+        Ray viewRay = new Ray(heatingPoint, view);
+        if (viewRay.isIntersects(this) == (angleA < angleB == reversed)) {
             a.swap(b);
         }
+    }
 
-        Ray viewRay = new Ray(heatingPoint, view);
-        if (viewRay.isIntersects(this)) {
-            if (angleB < 0 == reversed) {
+    /**
+     * swaps points if {@code b} earlier than {@code a} by clockwise or
+     * counterclockwise. Only if there are some collinear vectors in set
+     * {@code  view}, {@code hA}, {@code hB}
+     *
+     * @param heatingPoint center of clock
+     * @param reversed true - counterclockwise, false - clockwise
+     * @param view view vector (0,1)
+     * @param hA vector(heatingPoint, A)
+     * @param hB vector(heatingPoint, B)
+     * @return true if we orders points
+     */
+    private boolean ordersByClockwiseCollinears(Point heatingPoint,
+            boolean reversed, Vector view, Vector hA, Vector hB) {
+        if (hA.isUnidirectional(hB)) {
+            // closest point should be first
+            if (heatingPoint.distance(b) < heatingPoint.distance(a)) {
                 a.swap(b);
             }
-            return;
-        } else {
-            if (angleB > 0 == reversed) {
-                a.swap(b);
-            }
+            return true;
         }
+
+        if (view.isCollinear(hA) && view.isCollinear(hB)) {
+            if (view.isUnidirectional(hA)) {
+                a.swap(b);
+            }
+            return true;
+        }
+
+        if (view.isUnidirectional(hA)) {
+            if (hB.x > 0 == reversed) {
+                a.swap(b);
+            }
+            return true;
+        }
+
+        if (view.isUnidirectional(hB)) {
+            if (hA.x < 0 == reversed) {
+                a.swap(b);
+            }
+            return true;
+        }
+
+        return false;
     }
 
     @Override
