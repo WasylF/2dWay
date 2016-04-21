@@ -23,6 +23,9 @@ public class Vector extends Point {
     }
 
     public Vector(Point begin, Point end) {
+        if (begin.equals(end)) {
+            throw new IllegalArgumentException("Vector: Points the same. Vector couldn't be created");
+        }
         this.x = end.x - begin.x;
         this.y = end.y - begin.y;
     }
@@ -225,6 +228,10 @@ public class Vector extends Point {
     public double getAngle(Vector v) {
         double atan2Y = x * v.y - v.x * y;
         double atan2X = x * v.x + y * v.y;
+
+        if (abs(atan2X) < EPS && abs(atan2Y) < EPS) {
+            return 0;
+        }
 
         if (abs(atan2Y) < EPS) {
             atan2Y = EPS / 2;

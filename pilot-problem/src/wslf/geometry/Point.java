@@ -106,8 +106,8 @@ public class Point implements Comparable<Point> {
      */
     public int compareByClockwise(Point p, Point heatingPoint, boolean revers) {
         Ray ray = new Ray(heatingPoint, new Vector(0, 1));
-        double angle1 = ray.getAngle360(this);
-        double angle2 = ray.getAngle360(p);
+        double angle1 = ray.getAngle2PI(this);
+        double angle2 = ray.getAngle2PI(p);
 
         if (abs(angle1 - angle2) < Constants.EPS_ANGLE) {
             double d1 = heatingPoint.distance(this);

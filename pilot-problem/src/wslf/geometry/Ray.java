@@ -142,6 +142,10 @@ public class Ray {
      * @return angle in radians from [-pi; pi]
      */
     public double getAngle(Point point) {
+        if (p.equals(point)) {
+            return 0;
+        }
+
         Vector v2 = new Vector(p, point);
         return v.getAngle(v2);
     }
@@ -151,9 +155,9 @@ public class Ray {
      * ends at @point
      *
      * @param point end of vector
-     * @return angle in radians from [0; 2*pi]
+     * @return angle in radians from [0; 2*pi)
      */
-    public double getAngle360(Point point) {
+    public double getAngle2PI(Point point) {
         double angle = getAngle(point);
         if (angle < 0) {
             angle += 2 * java.lang.Math.PI;
