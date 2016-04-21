@@ -10,18 +10,18 @@ import java.util.List;
  */
 public class Polygon {
 
-    Point[] vertexes;
+    Point[] vertices;
 
     public Polygon(Point[] vertexes) {
-        this.vertexes = vertexes.clone();
+        this.vertices = vertexes.clone();
     }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("[" + vertexes.length + ":");
+        StringBuilder s = new StringBuilder("[" + vertices.length + ":");
 
-        for (int i = 0; i < vertexes.length; i++) {
-            s.append(vertexes[i]);
+        for (int i = 0; i < vertices.length; i++) {
+            s.append(vertices[i]);
         }
 
         s.append("]");
@@ -45,7 +45,7 @@ public class Polygon {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 73 * hash + Arrays.deepHashCode(this.vertexes);
+        hash = 73 * hash + Arrays.deepHashCode(this.vertices);
         return hash;
     }
 
@@ -55,19 +55,19 @@ public class Polygon {
         }
         int shift = 0;
 
-        while (shift < vertexes.length) {
-            if (vertexes[shift].equals(p.vertexes[0])) {
+        while (shift < vertices.length) {
+            if (vertices[shift].equals(p.vertices[0])) {
                 break;
             }
             shift++;
         }
 
-        if (shift == vertexes.length) {
+        if (shift == vertices.length) {
             return false;
         }
 
-        for (int i = 1; i < vertexes.length; i++) {
-            if (!vertexes[(i + shift) % vertexes.length].equals(p.vertexes[i])) {
+        for (int i = 1; i < vertices.length; i++) {
+            if (!vertices[(i + shift) % vertices.length].equals(p.vertices[i])) {
                 return false;
             }
         }
@@ -76,7 +76,7 @@ public class Polygon {
     }
 
     public int getSize() {
-        return vertexes.length;
+        return vertices.length;
     }
 
     /**
@@ -88,9 +88,9 @@ public class Polygon {
     public boolean contains(Point p) {
         int plus;
         plus = 0;
-        for (int i = 0; i + 1 < vertexes.length; i++) {
-            Vector v = new Vector(vertexes[i + 1].x - vertexes[i].x, vertexes[i + 1].y - vertexes[i].y);
-            Vector vP = new Vector(p.x - vertexes[i].x, p.y - vertexes[i].y);
+        for (int i = 0; i + 1 < vertices.length; i++) {
+            Vector v = new Vector(vertices[i + 1].x - vertices[i].x, vertices[i + 1].y - vertices[i].y);
+            Vector vP = new Vector(p.x - vertices[i].x, p.y - vertices[i].y);
             switch (v.sgnMultiplyVectors(vP)) {
                 case 0:
                     return true;
@@ -99,8 +99,8 @@ public class Polygon {
             }
         }
 
-        Vector v = new Vector(vertexes[0].x - vertexes[vertexes.length - 1].x, vertexes[0].y - vertexes[vertexes.length - 1].y);
-        Vector vP = new Vector(p.x - vertexes[vertexes.length - 1].x, p.y - vertexes[vertexes.length - 1].y);
+        Vector v = new Vector(vertices[0].x - vertices[vertices.length - 1].x, vertices[0].y - vertices[vertices.length - 1].y);
+        Vector vP = new Vector(p.x - vertices[vertices.length - 1].x, p.y - vertices[vertices.length - 1].y);
         switch (v.sgnMultiplyVectors(vP)) {
             case 0:
                 return true;
@@ -108,34 +108,35 @@ public class Polygon {
                 plus++;
         }
 
-        return (plus == 0 || plus == vertexes.length);
+        return (plus == 0 || plus == vertices.length);
 
     }
 
     /**
      *
-     * @return array of polygon's vertexes
+     * @return array of polygon's vertices
      */
     public Point[] toPoints() {
-        return vertexes.clone();
+        return vertices.clone();
     }
 
     /**
-     * returns list of polygon's vertexes
+     * returns list of polygon's vertices
      *
      * @param list result
      */
     public void toPointsList(List<Point> list) {
-        list = Arrays.asList(vertexes);
+        list.clear();
+        list.addAll(Arrays.asList(vertices));
     }
 
     /**
      *
-     * @return list of polygon's vertexes
+     * @return list of polygon's vertices
      */
     public ArrayList<Point> getPointsList() {
         ArrayList<Point> list = new ArrayList<>();
-        list.addAll(Arrays.asList(vertexes));
+        list.addAll(Arrays.asList(vertices));
         return list;
     }
 
@@ -143,18 +144,18 @@ public class Polygon {
      * @return array of sequential segments
      */
     public Segment[] toSegments() {
-        Segment[] segments = new Segment[vertexes.length];
+        Segment[] segments = new Segment[vertices.length];
 
-        segments[vertexes.length - 1] = new Segment(vertexes[vertexes.length - 1], vertexes[0]);
+        segments[vertices.length - 1] = new Segment(vertices[vertices.length - 1], vertices[0]);
 
-        for (int i = vertexes.length - 2; i >= 0; i--) {
-            segments[i] = new Segment(vertexes[i], vertexes[i + 1]);
+        for (int i = vertices.length - 2; i >= 0; i--) {
+            segments[i] = new Segment(vertices[i], vertices[i + 1]);
         }
 
         for (Segment segment : segments) {
             segment.orders();
         }
-        
+
         return segments;
     }
 
@@ -167,13 +168,13 @@ public class Polygon {
         list.clear();
         list.addAll(Arrays.asList(toSegments()));
     }
-    
+
     /**
-     * 
-     * @return list of sequential segments 
+     *
+     * @return list of sequential segments
      */
     public ArrayList<Segment> getSegmentsList() {
-        ArrayList<Segment> list= new ArrayList<>();
+        ArrayList<Segment> list = new ArrayList<>();
         list.addAll(Arrays.asList(toSegments()));
         return list;
     }
