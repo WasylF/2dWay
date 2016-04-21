@@ -2,6 +2,7 @@ package wslf.geometry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -178,4 +179,50 @@ public class Polygon {
         list.addAll(Arrays.asList(toSegments()));
         return list;
     }
+
+    /**
+     * return index of vertex or -1 if doesn't exist
+     *
+     * @param point probably vertex
+     * @return index
+     */
+    public int getVertexNumber(Point point) {
+        for (int i = vertices.length - 1; i >= 0; i--) {
+            if (vertices[i].equals(point)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     *
+     * @param point vertex
+     * @return list that contains two adjacent vertices or empty list if
+     * {@code point} isn't vertex
+     */
+    public LinkedList<Point> getAdjacentVertices(Point point) {
+        LinkedList<Point> adjacentVertices = new LinkedList<>();
+        int index = getVertexNumber(point);
+        if (index == 0) {
+            adjacentVertices.add(vertices[vertices.length - 1]);
+            adjacentVertices.add(vertices[1]);
+            return adjacentVertices;
+        }
+        if (index == vertices.length - 1) {
+            adjacentVertices.add(vertices[vertices.length - 2]);
+            adjacentVertices.add(vertices[0]);
+            return adjacentVertices;
+        }
+
+        if (index > 0 && index < vertices.length) {
+            adjacentVertices.add(vertices[index - 1]);
+            adjacentVertices.add(vertices[index + 1]);
+            return adjacentVertices;
+        }
+
+        return adjacentVertices;
+    }
+
 }
