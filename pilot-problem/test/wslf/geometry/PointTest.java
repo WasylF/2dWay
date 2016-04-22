@@ -164,7 +164,7 @@ public class PointTest {
         Point instance = new Point(0, 1);
         Point p = new Point(-0.1, 1);
 
-        int expResult = -1;
+        int expResult = 1;
         int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
@@ -177,7 +177,7 @@ public class PointTest {
         Point instance = new Point(-0.1, 1);
         Point p = new Point(0, 1);
 
-        int expResult = 1;
+        int expResult = -1;
         int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
@@ -233,6 +233,38 @@ public class PointTest {
         int result = instance.compareByClockwise(p, heatingPoint, true);
 
         assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testCompareByClockwise__() {
+        System.out.println("compareByClockwise");
+        Point heatingPoint = new Point(15976.0, 14.0);
+        Point[] p = {new Point(2376, 14), new Point(2910, 1), new Point(8910, 1)};
+
+        final int n = 3;
+        int[][] result = new int[n][n];
+        int[][] expResult = {{0, -1, -1},
+        {1, 0, -1},
+        {1, 1, 0}};
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = p[i].compareByClockwise(p[j], heatingPoint, true);
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println("");
+        }
+
+        for (int i = 0; i < n; i++) {
+            assertEquals(result[i][i], 0);
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                assertEquals(result[i][j] + result[j][i], 0);
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            assertArrayEquals(expResult[i], result[i]);
+        }
     }
 
     @Test

@@ -113,25 +113,34 @@ public class Point implements Comparable<Point> {
      * than {@code this}, 0 if points the same.
      */
     public int compareByClockwise(Point p, Point heatingPoint, boolean revers) {
-        Ray ray = new Ray(heatingPoint, new Vector(0, 1));
-        double angle1 = ray.getAngle2PI(this);
-        double angle2 = ray.getAngle2PI(p);
-
-        if (abs(angle1 - angle2) < Constants.EPS_ANGLE) {
-            double d1 = heatingPoint.distance(this);
-            double d2 = heatingPoint.distance(p);
-            if (abs(d1 - d2) < EPS) {
-                return 0;
+        if (equals(p)) {
+            return 0;
+        }
+        if (equals(heatingPoint)) {
+            return -1;
+        }
+        if (p.equals(heatingPoint)) {
+            return 1;
+        }
+        Vector v1 = new Vector(heatingPoint, this);
+        Vector v2 = new Vector(heatingPoint, p);
+        int sgn = v1.sgnMultiplyVectors(v2);
+        if (sgn == 0) {
+            if (v1.isUnidirectional(v2)) {
+                //Manhattan Distance for Unidirectional vectors doesn't affect order
+                double d1 = abs(v1.x) + abs(v1.y);
+                double d2 = abs(v2.x) + abs(v2.y);
+                if (abs(d1 - d2) < EPS) {
+                    return 0;
+                }
+                return d1 < d2 ? -1 : 1;
+            } else {
+                //Opposite
+                return v1.x >= 0 != revers ? -1 : 1;
             }
-            return d1 < d2 ? -1 : 1;
         }
 
-        if (abs(angle1) < EPS_ANGLE || abs(angle2) < EPS_ANGLE) {
-            return abs(angle1) < EPS_ANGLE ? -1 : 1;
-        }
-
-        int res = revers ? 1 : -1;
-        return angle1 > angle2 ? res : -res;
+        return revers ? -sgn : sgn;
     }
 
     /**
