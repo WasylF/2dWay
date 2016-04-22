@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import parcs.*;
 import wslf.algo.*;
 import wslf.geometry.*;
+import wslf.algo.VisGraph;
 
 public class Main implements AM {
 
@@ -34,7 +35,7 @@ public class Main implements AM {
     @Override
     public void run(AMInfo info) {
         // Загрузка данных
-        VisGraph g = new VisGraph(info.curtask.findFile(inputFN));
+        wslf.algo.VisGraph g = new VisGraph(info.curtask.findFile(inputFN));
         int size = g.getSize();
 
         final int threadsNum = 8;

@@ -126,7 +126,7 @@ public class Visibility implements Serializable {
     /**
      * comparator for sorting points on clockwise
      */
-    public class PointsAngleComparator implements Comparator<Integer> {
+    public class PointsAngleComparator implements Comparator<Integer>, Serializable {
 
         private final Point heatingPoint;
         private final boolean reversed;
@@ -147,7 +147,7 @@ public class Visibility implements Serializable {
      * comparator for sorting segments by distance from ray's begin to
      * intersection. ray should intersects segments.
      */
-    public class SegmentsDistComparator implements Comparator<Integer> {
+    public class SegmentsDistComparator implements Comparator<Integer>, Serializable {
 
         public SegmentsDistComparator(Ray ray, boolean reversed) {
             this.ray = ray;
