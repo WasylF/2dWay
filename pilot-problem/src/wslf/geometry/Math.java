@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static java.lang.Math.*;
 import static wslf.geometry.Constants.*;
 
@@ -7,7 +8,7 @@ import static wslf.geometry.Constants.*;
  *
  * @author Wsl_F
  */
-public class Math {
+public class Math implements Serializable {
 
     /**
      * <pre>

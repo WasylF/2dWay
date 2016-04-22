@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static java.lang.Math.*;
 import java.util.Objects;
 import static wslf.geometry.Constants.*;
@@ -9,34 +10,34 @@ import static wslf.geometry.Math.*;
  *
  * @author Wsl_F
  */
-public class Segment implements Comparable<Segment> {
-    
+public class Segment implements Comparable<Segment>, Serializable {
+
     Point a;
     Point b;
-    
+
     public Point getA() {
         return a;
     }
-    
+
     public Point getB() {
         return b;
     }
-    
+
     public Segment(Point a, Point b) {
         this.a = new Point(a);
         this.b = new Point(b);
     }
-    
+
     public Segment(double x1, double y1, double x2, double y2) {
         this.a = new Point(x1, y1);
         this.b = new Point(x2, y2);
     }
-    
+
     @Override
     public String toString() {
         return "[" + a + ";" + b + "]";
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -45,10 +46,10 @@ public class Segment implements Comparable<Segment> {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        
+
         return equals((Segment) obj);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -56,12 +57,12 @@ public class Segment implements Comparable<Segment> {
         hash = 41 * hash + Objects.hashCode(this.b);
         return hash;
     }
-    
+
     public boolean equals(Segment s) {
         return (a.equals(s.a) && b.equals(s.b))
                 || (a.equals(s.b) && b.equals(s.a));
     }
-    
+
     public double length() {
         return a.distance(b);
     }
@@ -81,7 +82,7 @@ public class Segment implements Comparable<Segment> {
         }
         Vector v1 = new Vector(a, p);
         Vector v2 = new Vector(b, p);
-        
+
         return v1.isCollinear(v2) && !v1.isUnidirectional(v2);
     }
 
@@ -96,23 +97,23 @@ public class Segment implements Comparable<Segment> {
                 || segm.contains(a) || segm.contains(b)) {
             return true;
         }
-        
+
         Vector ab = new Vector(a, b);
         Vector v1 = new Vector(a, segm.a);
         Vector v2 = new Vector(a, segm.b);
-        
+
         if (ab.sgnMultiplyVectors(v1) == ab.sgnMultiplyVectors(v2)) {
             return false; // if line AB doesn't intersect segment CD
         }
-        
+
         ab = new Vector(segm.a, segm.b);
         v1 = new Vector(segm.a, a);
         v2 = new Vector(segm.a, b);
-        
+
         if (ab.sgnMultiplyVectors(v1) == ab.sgnMultiplyVectors(v2)) {
             return false; // if line CD doesn't intersect segment AB
         }
-        
+
         v1 = new Vector(a, b);
         return !ab.isCollinear(v1);
     }
@@ -127,10 +128,10 @@ public class Segment implements Comparable<Segment> {
         if (!isIntersect(segm)) {
             return null;
         }
-        
+
         LineABC line1 = new LineABC(this);
         LineABC line2 = new LineABC(segm);
-        
+
         Point p = line1.getIntersection(line2);
         return p;
     }
@@ -143,7 +144,7 @@ public class Segment implements Comparable<Segment> {
      */
     public Point getIntersection(LineABC line) {
         LineABC line1 = new LineABC(this);
-        
+
         Point p = line.getIntersection(line1);
         if (!contains(p)) {
             p = null;
@@ -189,15 +190,15 @@ public class Segment implements Comparable<Segment> {
         if (ordersByClockwiseEqualse(heatingPoint, reversed)) {
             return;
         }
-        
+
         Vector view = new Vector(0, 1);
         Vector hA = new Vector(heatingPoint, a);
         Vector hB = new Vector(heatingPoint, b);
-        
+
         if (ordersByClockwiseCollinears(heatingPoint, reversed, view, hA, hB)) {
             return;
         }
-        
+
         double angleA = view.getAngle2PI(hA);
         double angleB = view.getAngle2PI(hB);
 
@@ -227,7 +228,7 @@ public class Segment implements Comparable<Segment> {
         if (b.equals(heatingPoint)) {
             a.swap(b);
         }
-        
+
         if (heatingPoint.equals(a)) {
             Vector hB = new Vector(heatingPoint, b);
             if (abs(hB.x) < EPS / 2) {
@@ -236,13 +237,13 @@ public class Segment implements Comparable<Segment> {
                 }
                 return true;
             }
-            
+
             if (hB.x > 0 == reversed) {
                 a.swap(b);
             }
             return true;
         }
-        
+
         return false;
     }
 
@@ -267,31 +268,31 @@ public class Segment implements Comparable<Segment> {
             }
             return true;
         }
-        
+
         if (view.isCollinear(hA) && view.isCollinear(hB)) {
             if (view.isUnidirectional(hA)) {
                 a.swap(b);
             }
             return true;
         }
-        
+
         if (view.isUnidirectional(hA)) {
             if (hB.x > 0 == reversed) {
                 a.swap(b);
             }
             return true;
         }
-        
+
         if (view.isUnidirectional(hB)) {
             if (hA.x < 0 == reversed) {
                 a.swap(b);
             }
             return true;
         }
-        
+
         return false;
     }
-    
+
     @Override
     public int compareTo(Segment sg) {
         int c1 = a.compareTo(sg.a);
@@ -302,7 +303,7 @@ public class Segment implements Comparable<Segment> {
         if (c1 == -1 || (c1 == 0 && c2 == -1)) {
             return -1;
         }
-        
+
         return 1;
     }
 }

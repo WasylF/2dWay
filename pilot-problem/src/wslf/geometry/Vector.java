@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static java.lang.Math.*;
 import static wslf.geometry.Constants.*;
 import static wslf.geometry.Math.*;
@@ -8,7 +9,7 @@ import static wslf.geometry.Math.*;
  *
  * @author Wsl_F
  */
-public class Vector extends Point {
+public class Vector extends Point implements Serializable {
 
     public Vector() {
         super();

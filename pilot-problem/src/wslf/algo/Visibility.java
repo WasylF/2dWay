@@ -1,5 +1,6 @@
 package wslf.algo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,13 +12,14 @@ import static wslf.geometry.Constants.*;
 import static java.lang.Math.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
  *
  * @author Wsl_F
  */
-public class Visibility {
+public class Visibility implements Serializable {
 
     /**
      * list of all edges of all barriers in the world
@@ -470,6 +472,20 @@ public class Visibility {
     public ArrayList<ArrayList<Integer>> buildVisibilityGraph() {
         for (int i = vertices.size() - 1; i >= 0; i--) {
             visGraph.get(i).addAll(getVisible(i));
+        }
+
+        return visGraph;
+    }
+
+    /**
+     * builds visibility graph
+     *
+     * @param verticiesNumb numbers of verrices for that we build vis graph
+     * @return visibility graph
+     */
+    public ArrayList<ArrayList<Integer>> buildVisibilityGraph(List<Integer> verticiesNumb) {
+        for (int vertex : verticiesNumb) {
+            visGraph.get(vertex).addAll(getVisible(vertex));
         }
 
         return visGraph;

@@ -1,10 +1,12 @@
 package wslf.geometry;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Wsl_F
  */
-public class Constants {
+public class Constants implements Serializable {
 
     /**
      * epsilon value for distances
@@ -17,9 +19,9 @@ public class Constants {
     /**
      * Prime number for hash code
      */
-    public static final long BIG_PRIME= 5915587277L;
-    /** 
+    public static final long BIG_PRIME = 5915587277L;
+    /**
      * Prime number for hash code
      */
-    public static final long LOW_PRIME= 97;
+    public static final long LOW_PRIME = 97;
 }

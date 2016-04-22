@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static java.lang.Math.abs;
 import java.util.Objects;
 
@@ -7,7 +8,7 @@ import java.util.Objects;
  *
  * @author Wsl_F
  */
-public class Ray {
+public class Ray implements Serializable {
 
     Point p;
     Vector v;

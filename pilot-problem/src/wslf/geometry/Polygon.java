@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author Wsl_F
  */
-public class Polygon {
+public class Polygon implements Serializable {
 
     Point[] vertices;
 

@@ -3,6 +3,7 @@ package wslf.algo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
@@ -15,7 +16,7 @@ import wslf.geometry.*;
  *
  * @author Wsl_F
  */
-public class World {
+public class World implements Serializable {
 
     /**
      * array that contains all barriers in the world

@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static java.lang.Math.*;
 import static wslf.geometry.Constants.*;
 import static wslf.geometry.Math.*;
@@ -9,7 +10,7 @@ import static wslf.geometry.Math.*;
  *
  * @author Wsl_F
  */
-public class LineABC {
+public class LineABC implements Serializable {
 
     double a;
     double b;

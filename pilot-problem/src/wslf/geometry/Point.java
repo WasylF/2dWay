@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import java.io.Serializable;
 import static wslf.geometry.Constants.*;
 import static java.lang.Math.*;
 
@@ -7,7 +8,7 @@ import static java.lang.Math.*;
  *
  * @author Wsl_F
  */
-public class Point implements Comparable<Point> {
+public class Point implements Comparable<Point>, Serializable {
 
     double x;
     double y;
