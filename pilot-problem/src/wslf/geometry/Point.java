@@ -74,11 +74,11 @@ public class Point implements Comparable<Point> {
     }
 
     public boolean equals(Point p) {
-        return (abs(p.x - x) + abs(p.y - y) < EPS);
+        return abs(p.x - x) < EPS && abs(p.y - y) < EPS;
     }
 
     public double distance(Point p) {
-        return hypot(x - p.x, y - p.y);
+        return wslf.geometry.Math.hypot(x - p.x, y - p.y);
     }
 
     /**

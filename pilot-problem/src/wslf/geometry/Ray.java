@@ -82,7 +82,7 @@ public class Ray {
         if (point == null) {
             return false;
         }
-        return p.equals(point) || abs(v.getAngle(new Vector(this.p, point))) < Constants.EPS_ANGLE;
+        return p.equals(point) || v.isUnidirectional(new Vector(this.p, point));
     }
 
     /**

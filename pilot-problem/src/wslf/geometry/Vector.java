@@ -23,11 +23,11 @@ public class Vector extends Point {
     }
 
     public Vector(Point begin, Point end) {
-        if (begin.equals(end)) {
-            throw new IllegalArgumentException("Vector: Points the same. Vector couldn't be created");
-        }
         this.x = end.x - begin.x;
         this.y = end.y - begin.y;
+        if ((abs(x) + abs(y)) < EPS) {
+            throw new IllegalArgumentException("Vector: Points the same. Vector couldn't be created");
+        }
     }
 
     /**
@@ -87,11 +87,11 @@ public class Vector extends Point {
      * @return true if collinear
      */
     public boolean isCollinear(Vector v) {
-        if (length() + v.length() < EPS) {
+        if ((abs(x) + abs(y) + abs(v.x) + abs(v.y)) < EPS) {
             return true;
         }
 
-        if (length() * v.length() < EPS) {
+        if ((abs(x) + abs(y)) < EPS || (abs(v.x) + abs(v.y)) < EPS) {
             return false;
         }
 
@@ -103,7 +103,7 @@ public class Vector extends Point {
      * @return length of vector
      */
     public double length() {
-        return hypot(x, y);
+        return Math.hypot(x, y);
     }
 
     /**
