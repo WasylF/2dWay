@@ -81,6 +81,10 @@ public class Point implements Comparable<Point> {
         return wslf.geometry.Math.hypot(x - p.x, y - p.y);
     }
 
+    public double manhattanDistance(Point p) {
+        return abs(x - p.x) + abs(y - p.y);
+    }
+
     /**
      * AX - segment, M belongs AX && AM=MX A - this point, M - middle
      *
