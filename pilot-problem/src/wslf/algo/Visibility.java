@@ -471,6 +471,7 @@ public class Visibility implements Serializable {
      */
     public ArrayList<ArrayList<Integer>> buildVisibilityGraph() {
         for (int i = vertices.size() - 1; i >= 0; i--) {
+            System.err.println("build: "+i);
             visGraph.get(i).addAll(getVisible(i));
         }
 
@@ -533,8 +534,7 @@ public class Visibility implements Serializable {
     }
 
     private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
-        /*
-         System.out.println((i + 1) + ") of " + pointsSize);
+ /*        System.out.println((i + 1) + ") of " + pointsSize);
          System.out.println("curPoint: " + curPointN + " :  " + curPoint);
 
          System.out.println("current status:");

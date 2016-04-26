@@ -14,21 +14,25 @@ public class Vector extends Point implements Serializable {
     public Vector() {
         super();
     }
-
+    
     public Vector(double x, double y) {
         super(x, y);
     }
-
+    
     public Vector(Vector v) {
         super(v);
     }
-
+    
     public Vector(Point begin, Point end) {
-        if (begin.equals(end)) {
-            throw new IllegalArgumentException("Vector: Points the same. Vector couldn't be created");
-        }
+        set(begin, end);
+    }
+    
+    public void set(Point begin, Point end) {
         this.x = end.x - begin.x;
         this.y = end.y - begin.y;
+        if ((abs(x) + abs(y)) < EPS) {
+            throw new IllegalArgumentException("Vector: Points the same. Vector couldn't be created");
+        }
     }
 
     /**
@@ -48,7 +52,7 @@ public class Vector extends Point implements Serializable {
         super();
         getVectorByAngle(angle);
     }
-
+    
     @Override
     public String toString() {
         return " ( " + x + " , " + y + " ) : |" + length() + "|";
@@ -88,15 +92,7 @@ public class Vector extends Point implements Serializable {
      * @return true if collinear
      */
     public boolean isCollinear(Vector v) {
-        if (length() + v.length() < EPS) {
-            return true;
-        }
-
-        if (length() * v.length() < EPS) {
-            return false;
-        }
-
-        return abs(x * v.y - y * v.x) < EPS;
+        return wslf.geometry.Math.isDeterminantZero(this, v);
     }
 
     /**
@@ -104,7 +100,7 @@ public class Vector extends Point implements Serializable {
      * @return length of vector
      */
     public double length() {
-        return hypot(x, y);
+        return wslf.geometry.Math.hypot(x, y);
     }
 
     /**
@@ -229,18 +225,18 @@ public class Vector extends Point implements Serializable {
     public double getAngle(Vector v) {
         double atan2Y = x * v.y - v.x * y;
         double atan2X = x * v.x + y * v.y;
-
+        
         if (abs(atan2X) < EPS && abs(atan2Y) < EPS) {
             return 0;
         }
-
+        
         if (abs(atan2Y) < EPS) {
             atan2Y = EPS / 2;
         }
         if (abs(atan2X) < EPS) {
             atan2X = 0;
         }
-
+        
         return atan2(atan2Y, atan2X);
     }
 
@@ -268,11 +264,7 @@ public class Vector extends Point implements Serializable {
      * @return true if angle close to zero
      */
     public boolean isUnidirectional(Vector v) {
-        if (!isCollinear(v)) {
-            return false;
-        }
-
-        return sgn(x) == sgn(v.x) && sgn(y) == sgn(v.y);
+        return sgn(x) == sgn(v.x) && sgn(y) == sgn(v.y) && isCollinear(v);
     }
 
     /**
@@ -282,7 +274,7 @@ public class Vector extends Point implements Serializable {
      * @return true if angle close to PI
      */
     public boolean isOpposite(Vector v) {
-        return isCollinear(v) && !isUnidirectional(v);
+        return (sgn(x) != sgn(v.x) || sgn(y) != sgn(v.y)) && isCollinear(v);
     }
 
     /**
@@ -292,11 +284,11 @@ public class Vector extends Point implements Serializable {
     public double getAngleToOX() {
         return getAngle(new Vector(1, 0));
     }
-
+    
     @Override
     public int hashCode() {
         long hash = super.hashCode();
         return (int) (hash * BIG_PRIME % Integer.MAX_VALUE);
     }
-
+    
 }

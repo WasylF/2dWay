@@ -27,12 +27,13 @@ public class LineABC implements Serializable {
     }
 
     public LineABC(Point A, Point B) {
-        if (A.equals(B)) {
+        a = B.y - A.y;
+        b = A.x - B.x;
+
+        if (abs(a) < EPS && abs(b) < EPS) {
             throw new IllegalArgumentException("LineABC: Points the same. Line couldn't be created");
         }
 
-        a = B.y - A.y;
-        b = A.x - B.x;
         c = -determinant(A, B);
     }
 

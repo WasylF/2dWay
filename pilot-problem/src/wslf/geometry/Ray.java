@@ -83,7 +83,7 @@ public class Ray implements Serializable {
         if (point == null) {
             return false;
         }
-        return p.equals(point) || abs(v.getAngle(new Vector(this.p, point))) < Constants.EPS_ANGLE;
+        return p.equals(point) || v.isUnidirectional(new Vector(this.p, point));
     }
 
     /**
@@ -94,23 +94,28 @@ public class Ray implements Serializable {
      * @return
      */
     public Point getIntersection(Segment sg) {
+        Point point = null;
         LineABC line = new LineABC(p, v);
-        Point point = sg.getIntersection(line);
+        point = sg.getIntersection(line);
         // process "collinear" segment
         if (point == null) {
             boolean cont1 = contains(sg.a);
             boolean cont2 = contains(sg.b);
             if (cont1 || cont2) {
                 if (cont1 && cont2) {
-                    point = p.distance(sg.a) < p.distance(sg.b) ? sg.a : sg.b;
+                    if (sg.contains(p)) {
+                        point = new Point(p);
+                    } else {
+                        point = p.distance(sg.a) < p.distance(sg.b) ? sg.a : sg.b;
+                    }
                 } else {
-                    point = new Point(p);
+                    point = cont1 ? new Point(sg.a) : new Point(sg.b);
                 }
             } else {
                 return null;
             }
         }
-        if (!sg.contains(point) || !contains(point)) {
+        if (!contains(point)) {
             point = null;
         }
         return point;

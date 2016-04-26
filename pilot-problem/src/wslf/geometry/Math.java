@@ -88,4 +88,55 @@ public class Math implements Serializable {
 
         return 1;
     }
+
+    /**
+     * Returns the hypotenuse of a triangle with sides {@code x} and {@code y} -
+     * sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * avoiding intermediate overflow or underflow.
+     *
+     * <ul>
+     * <li> If either argument is infinite, then the result is positive
+     * infinity.</li>
+     * <li> else, if either argument is NaN then the result is NaN.</li>
+     * </ul>
+     *
+     * @param x a value
+     * @param y a value
+     * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
+     */
+    public static double hypot(final double x, final double y) {
+        if (Double.isInfinite(x) || Double.isInfinite(y)) {
+            return Double.POSITIVE_INFINITY;
+        } else if (Double.isNaN(x) || Double.isNaN(y)) {
+            return Double.NaN;
+        } else {
+
+            final int expX = getExponent(x);
+            final int expY = getExponent(y);
+            if (expX > expY + 27) {
+                // y is neglectible with respect to x
+                return abs(x);
+            } else if (expY > expX + 27) {
+                // x is neglectible with respect to y
+                return abs(y);
+            } else {
+
+                // find an intermediate scale to avoid both overflow and underflow
+                final int middleExp = (expX + expY) / 2;
+
+                // scale parameters without losing precision
+                final double scaledX = scalb(x, -middleExp);
+                final double scaledY = scalb(y, -middleExp);
+
+                // compute scaled hypotenuse
+                final double scaledH = sqrt(scaledX * scaledX + scaledY * scaledY);
+
+                // remove scaling
+                return scalb(scaledH, middleExp);
+
+            }
+
+        }
+    }
+
 }

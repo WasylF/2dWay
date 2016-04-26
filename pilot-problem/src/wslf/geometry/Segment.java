@@ -83,7 +83,7 @@ public class Segment implements Comparable<Segment>, Serializable {
         Vector v1 = new Vector(a, p);
         Vector v2 = new Vector(b, p);
 
-        return v1.isCollinear(v2) && !v1.isUnidirectional(v2);
+        return v1.isOpposite(v2);
     }
 
     /**
@@ -106,9 +106,9 @@ public class Segment implements Comparable<Segment>, Serializable {
             return false; // if line AB doesn't intersect segment CD
         }
 
-        ab = new Vector(segm.a, segm.b);
-        v1 = new Vector(segm.a, a);
-        v2 = new Vector(segm.a, b);
+        ab.set(segm.a, segm.b);
+        v1.set(segm.a, a);
+        v2.set(segm.a, b);
 
         if (ab.sgnMultiplyVectors(v1) == ab.sgnMultiplyVectors(v2)) {
             return false; // if line CD doesn't intersect segment AB
@@ -125,14 +125,14 @@ public class Segment implements Comparable<Segment>, Serializable {
      * @return intersection point if exists, else - null
      */
     public Point getIntersection(Segment segm) {
-        if (!isIntersect(segm)) {
-            return null;
-        }
-
         LineABC line1 = new LineABC(this);
         LineABC line2 = new LineABC(segm);
 
         Point p = line1.getIntersection(line2);
+        if (!contains(p) || !segm.contains(p)) {
+            p = null;
+        }
+
         return p;
     }
 
