@@ -164,7 +164,7 @@ public class PointTest {
         Point instance = new Point(0, 1);
         Point p = new Point(-0.1, 1);
 
-        int expResult = 1;
+        int expResult = -1;
         int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);
@@ -177,7 +177,7 @@ public class PointTest {
         Point instance = new Point(-0.1, 1);
         Point p = new Point(0, 1);
 
-        int expResult = -1;
+        int expResult = 1;
         int result = instance.compareByClockwise(p, heatingPoint, false);
 
         assertEquals(expResult, result);

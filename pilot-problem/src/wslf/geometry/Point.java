@@ -144,7 +144,24 @@ public class Point implements Comparable<Point> {
             }
         }
 
-        return revers ? -sgn : sgn;
+        // directed on 12 o'clock
+        if (v1.y > 0 && abs(v1.x) < EPS) {
+            return -1;
+        }
+
+        // directed on 12 o'clock
+        if (v2.y > 0 && abs(v2.x) < EPS) {
+            return 1;
+        }
+
+        int sgn1 = Math.sgn(v1.x);
+        int sgn2 = Math.sgn(v2.x);
+
+        if (sgn1 == sgn2) {
+            return revers ? -sgn : sgn;
+        }
+
+        return sgn1 < sgn2 == revers ? -1 : 1;
     }
 
     /**
