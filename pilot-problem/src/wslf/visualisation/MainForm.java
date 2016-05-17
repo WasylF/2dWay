@@ -7,12 +7,20 @@ package wslf.visualisation;
 
 import java.awt.Container;
 import javax.swing.JFrame;
+import wslf.algo.World;
 
 /**
  *
  * @author Wsl_F
  */
 public class MainForm extends javax.swing.JFrame {
+
+    private World world;
+
+    public void setWorld(World world) {
+        this.world = world;
+        wordPanel.setWorld(world);
+    }
 
     /**
      * Creates new form MainForm
@@ -76,10 +84,7 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    public static void run() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
