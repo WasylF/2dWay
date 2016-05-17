@@ -1,5 +1,6 @@
 package wslf.geometry;
 
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -48,6 +49,17 @@ public class Polygon {
         int hash = 3;
         hash = 73 * hash + Arrays.deepHashCode(this.vertices);
         return hash;
+    }
+
+    public double area() {
+        double S;
+        S = vertices[vertices.length - 1].x * vertices[0].y - vertices[0].x * vertices[vertices.length - 1].y;
+        for (int i = vertices.length - 2; i >= 0; i--) {
+            S += vertices[i].x * vertices[i + 1].y - vertices[i + 1].x * vertices[i].y;
+        }
+
+        S = abs(S) / 2;
+        return S;
     }
 
     public boolean equals(Polygon p) {

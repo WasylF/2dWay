@@ -155,4 +155,13 @@ public class PolygonTest {
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testArea() {
+        Point[] vertices = {new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(0, 1)};
+        Polygon instance = new Polygon(vertices);
+        double expResult = 1;
+        double result = instance.area();
+
+        assertEquals(expResult, result, 1e-3);
+    }
 }
