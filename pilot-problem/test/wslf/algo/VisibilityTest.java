@@ -3,6 +3,7 @@ package wslf.algo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import javafx.util.Pair;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import wslf.geometry.Point;
@@ -1256,11 +1257,16 @@ public class VisibilityTest {
         expResult.add(new ArrayList<>());
         expResult.add(new ArrayList<>());
 
-        ArrayList<ArrayList<Integer>> result = instance.buildVisibilityGraph();
+        ArrayList<ArrayList<Pair<Integer, Double>>> result = instance.buildVisibilityGraph();
 
         for (int i = 0; i < 12; i++) {
-            boolean f = result.get(i).containsAll(expResult.get(i));
-            f &= expResult.get(i).containsAll(result.get(i));
+            ArrayList<Integer> res = new ArrayList<>();
+            for (Pair<Integer, Double> p : result.get(i)) {
+                res.add(p.getKey());
+            }
+
+            boolean f = res.containsAll(expResult.get(i));
+            f &= expResult.get(i).containsAll(res);
             assertTrue(f);
         }
 

@@ -12,6 +12,7 @@ import static java.lang.Math.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
+import javafx.util.Pair;
 
 /**
  *
@@ -47,7 +48,7 @@ public class Visibility {
      * graph of visibility. visGraph[i] - list of numbers of points those
      * visible from vertex №i. Coordinates of vertex №i is vertices[i]
      */
-    private final ArrayList<ArrayList<Integer>> visGraph;
+    private final ArrayList<ArrayList<Pair<Integer, Double>>> visGraph;
 
     /**
      * match vertex to it number (id) in vertices
@@ -88,6 +89,8 @@ public class Visibility {
     private void enumarateVertices() {
         this.vertices = world.getPoints();
         nVertex = vertices.size();
+        vertices.add(new Point());
+        vertices.add(new Point());
 
         pointNumber = new HashMap<>();
         for (int i = 0; i < nVertex; i++) {
@@ -467,10 +470,10 @@ public class Visibility {
      *
      * @return visibility graph
      */
-    public ArrayList<ArrayList<Integer>> buildVisibilityGraph() {
-        for (int i = vertices.size() - 1; i >= 0; i--) {
-            System.err.println("build: "+i);
-            visGraph.get(i).addAll(getVisible(i));
+    public ArrayList<ArrayList<Pair<Integer, Double>>> buildVisibilityGraph() {
+        for (int i = nVertex - 1; i >= 0; i--) {
+            System.err.println("build: " + i);
+            addPointToVisGraph(i);
         }
 
         return visGraph;
@@ -479,19 +482,34 @@ public class Visibility {
     /**
      * update {@code visGraph} to add new point
      *
-     * @param point new point
      * @param index index for {@code point} in visibility graph
      */
-    private void addPointToVisGraph(Point point, int index) {
+    private LinkedList<Integer> addPointToVisGraph(int index) {
         // delete adjacent list for previous point
         visGraph.get(index).clear();
 
+        LinkedList<Integer> visibles = getVisible(index);
         // add all visible points for current point
-        visGraph.get(index).addAll(getVisible(point));
+        for (int visible : visibles) {
+            double dist = vertices.get(index).distance(vertices.get(visible));
+            visGraph.get(index).add(new Pair<>(visible, dist));
+        }
+
+        return visibles;
+    }
+
+    /**
+     * update {@code visGraph} to add new point
+     *
+     * @param index index for {@code point} in visibility graph
+     */
+    private void addSeparatePointToVisGraph(int index) {
+        LinkedList<Integer> visibles = addPointToVisGraph(index);
 
         // add current point to adjacents lists for all visible points
-        for (int vertex : visGraph.get(index)) {
-            visGraph.get(vertex).add(index);
+        for (int vertex : visibles) {
+            double dist = vertices.get(index).distance(vertices.get(vertex));
+            visGraph.get(vertex).add(new Pair<>(index, dist));
         }
     }
 
@@ -502,24 +520,26 @@ public class Visibility {
      * @param finish new finish point
      * @return
      */
-    public ArrayList<ArrayList<Integer>> updateVisibilityGraph(Point start, Point finish) {
-        int vertSize = vertices.size() - 1;
+    public ArrayList<ArrayList<Pair<Integer, Double>>> updateVisibilityGraph(Point start, Point finish) {
         // delete connections to previous start/finish points
-        for (ArrayList<Integer> list : visGraph) {
-            while (!list.isEmpty() && list.get(list.size() - 1) > vertSize) {
+        visGraph.stream().forEach((list) -> {
+            while (!list.isEmpty() && list.get(list.size() - 1).getKey() >= nVertex) {
                 list.remove(list.size() - 1);
             }
-        }
+        });
 
-        addPointToVisGraph(start, vertSize);
-        addPointToVisGraph(finish, vertSize + 1);
+        vertices.set(nVertex, start);
+        vertices.set(nVertex + 1, finish);
+
+        addSeparatePointToVisGraph(nVertex);
+        addSeparatePointToVisGraph(nVertex + 1);
 
         return visGraph;
     }
 
     private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
-        
- /*        System.out.println((i + 1) + ") of " + pointsSize);
+
+        /*        System.out.println((i + 1) + ") of " + pointsSize);
          System.out.println("curPoint: " + curPointN + " :  " + curPoint);
 
          System.out.println("current status:");
@@ -532,7 +552,7 @@ public class Visibility {
          System.out.println("closest: " + status.first() + "  -  " + segments.get(status.first()));
          }
          System.out.println("\n\n");
-   */      
+         */
     }
 
 }
