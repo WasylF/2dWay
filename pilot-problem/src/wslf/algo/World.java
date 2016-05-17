@@ -22,6 +22,10 @@ public class World {
      */
     final Polygon[] barriers;
 
+    public Polygon[] getBarriers() {
+        return barriers;
+    }
+
     public World(Polygon[] barriers) {
         this.barriers = barriers;
     }
