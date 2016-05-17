@@ -820,4 +820,46 @@ public class VectorTest extends TestCase {
         double result = instance.multiplyScalar(v);
         assertEquals(expResult, result, EPS);
     }
+
+    @Test
+    public void testGetByAngle1() {
+        Vector instance = new Vector(2 * PI - PI / 4);
+        assertEquals(instance.x, 1, EPS);
+        assertEquals(instance.y, -1, EPS);
+    }
+
+    @Test
+    public void testGetByAngle2() {
+        Vector instance = new Vector(-PI / 4);
+        assertEquals(instance.x, 1, EPS);
+        assertEquals(instance.y, -1, EPS);
+    }
+
+    @Test
+    public void testGetByAngle3() {
+        Vector instance = new Vector(PI / 4);
+        assertEquals(instance.x, 1, EPS);
+        assertEquals(instance.y, 1, EPS);
+    }
+
+    @Test
+    public void testGetByAngle4() {
+        Vector instance = new Vector(PI - PI / 4);
+        assertEquals(instance.x, -1, EPS);
+        assertEquals(instance.y, 1, EPS);
+    }
+
+    @Test
+    public void testGetByAngle5() {
+        Vector instance = new Vector(PI + PI / 4);
+        assertEquals(instance.x, -1, EPS);
+        assertEquals(instance.y, -1, EPS);
+    }
+
+    @Test
+    public void testGetByAngle6() {
+        Vector instance = new Vector(0);
+        assertEquals(instance.x, 1, EPS);
+        assertEquals(instance.y, 0, EPS);
+    }
 }

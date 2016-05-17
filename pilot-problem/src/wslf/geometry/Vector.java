@@ -9,23 +9,23 @@ import static wslf.geometry.Math.*;
  * @author Wsl_F
  */
 public class Vector extends Point {
-    
+
     public Vector() {
         super();
     }
-    
+
     public Vector(double x, double y) {
         super(x, y);
     }
-    
+
     public Vector(Vector v) {
         super(v);
     }
-    
+
     public Vector(Point begin, Point end) {
         set(begin, end);
     }
-    
+
     public void set(Point begin, Point end) {
         this.x = end.x - begin.x;
         this.y = end.y - begin.y;
@@ -49,9 +49,11 @@ public class Vector extends Point {
      */
     public Vector(double angle) {
         super();
-        getVectorByAngle(angle);
+        Vector v = getVectorByAngle(angle);
+        x = v.x;
+        y = v.y;
     }
-    
+
     @Override
     public String toString() {
         return " ( " + x + " , " + y + " ) : |" + length() + "|";
@@ -188,6 +190,12 @@ public class Vector extends Point {
         if (abs(angle + PI / 2) < EPS_ANGLE) {
             return new Vector(0, -1);
         }
+
+        {
+            int t = (int) (angle / PI) + 1;
+            angle -= (t / 2) * PI * 2;
+        }
+        // angle [-PI; PI]
         if (abs(angle) < PI / 2) {
             return new Vector(1, tan(angle));
         } else {
@@ -224,18 +232,18 @@ public class Vector extends Point {
     public double getAngle(Vector v) {
         double atan2Y = x * v.y - v.x * y;
         double atan2X = x * v.x + y * v.y;
-        
+
         if (abs(atan2X) < EPS && abs(atan2Y) < EPS) {
             return 0;
         }
-        
+
         if (abs(atan2Y) < EPS) {
             atan2Y = EPS / 2;
         }
         if (abs(atan2X) < EPS) {
             atan2X = 0;
         }
-        
+
         return atan2(atan2Y, atan2X);
     }
 
@@ -283,11 +291,11 @@ public class Vector extends Point {
     public double getAngleToOX() {
         return getAngle(new Vector(1, 0));
     }
-    
+
     @Override
     public int hashCode() {
         long hash = super.hashCode();
         return (int) (hash * BIG_PRIME % Integer.MAX_VALUE);
     }
-    
+
 }
