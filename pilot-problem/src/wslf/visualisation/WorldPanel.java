@@ -84,7 +84,6 @@ public class WorldPanel extends JPanel {
 
         for (int i = 0; i < barriers.length; i++) {
             wslf.geometry.Polygon barrier = barriers[i];
-            System.out.println(barrier);
             drawPolygon[i] = new Polygon();
             for (wslf.geometry.Point vertex : barrier.toPoints()) {
                 int x = getCoordinate(vertex.getX() - minX, coef);
