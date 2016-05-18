@@ -6,8 +6,10 @@
 package wslf.visualisation;
 
 import java.awt.Container;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import wslf.algo.World;
+import wslf.geometry.Point;
 
 /**
  *
@@ -19,7 +21,11 @@ public class MainForm extends javax.swing.JFrame {
 
     public void setWorld(World world) {
         this.world = world;
-        wordPanel.setWorld(world);
+        worldPanel.setWorld(world);
+    }
+
+    public void setWay(LinkedList<wslf.geometry.Point> way) {
+        worldPanel.setWay(way);
     }
 
     /**
@@ -40,7 +46,7 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        wordPanel = new WorldPanel();
+        worldPanel = new WorldPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -52,10 +58,10 @@ public class MainForm extends javax.swing.JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setType(java.awt.Window.Type.NORMAL);
 
-        wordPanel.setBackground(new java.awt.Color(102, 255, 255));
+        worldPanel.setBackground(new java.awt.Color(102, 255, 255));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(wordPanel);
-        wordPanel.setLayout(jPanel1Layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(worldPanel);
+        worldPanel.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGap(0, 1800, Short.MAX_VALUE)
@@ -71,20 +77,19 @@ public class MainForm extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(wordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(worldPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(75, Short.MAX_VALUE)
-                        .addComponent(wordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(worldPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(65, 65, 65))
         );
 
         pack();
     }// </editor-fold>
 
-
-    private WorldPanel wordPanel;
+    private WorldPanel worldPanel;
 }
