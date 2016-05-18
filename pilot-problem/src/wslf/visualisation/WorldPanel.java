@@ -82,11 +82,13 @@ public class WorldPanel extends JPanel {
             g2d.fill(getPoint(x1, y1, 3, 3));
         }
 
-        wslf.geometry.Point start = way.get(0);
-        wslf.geometry.Point finish = way.get(n - 1);
+        if (n >= 2) {
+            wslf.geometry.Point start = way.get(0);
+            wslf.geometry.Point finish = way.get(n - 1);
 
-        g2d.fill(getPoint(getCoordinateX(start.getX()), getCoordinateY(start.getY()), 7, 7));
-        g2d.fill(getPoint(getCoordinateX(finish.getX()), getCoordinateY(finish.getY()), 7, 7));
+            g2d.fill(getPoint(getCoordinateX(start.getX()), getCoordinateY(start.getY()), 7, 7));
+            g2d.fill(getPoint(getCoordinateX(finish.getX()), getCoordinateY(finish.getY()), 7, 7));
+        }
     }
 
     private Ellipse2D getPoint(double x, double y, double width, double height) {
