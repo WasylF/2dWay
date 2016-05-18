@@ -102,7 +102,7 @@ public class Visibility {
 
     private void matchSegmentsToVertices() {
         vertexToSegments = new ArrayList<>(nVertex);
-        for (int i = 0; i < nVertex; i++) {
+        for (int i = nVertex + 1; i >= 0; i--) {
             vertexToSegments.add(new ArrayList<>());
         }
 
@@ -411,13 +411,10 @@ public class Visibility {
                     = getPointsNumbers(barrier.getAdjacentVertices(heatingPoint));
 
             if (!neighbors.isEmpty()) {
+                Collections.sort(neighbors, new PointsAngleComparator(ray, reversed));
                 Vector toBegin = new Vector(heatingPoint, vertices.get(neighbors.getFirst()));
                 Vector toEnd = new Vector(heatingPoint, vertices.get(neighbors.getLast()));
-                double angle = toBegin.getAngle(toEnd);
-                if (angle < 0) {
-                    angle = -angle;
-                    toBegin.swap(toEnd);
-                }
+                double angle = toBegin.getAngle2PI(toEnd);
 
                 for (Integer vertex : points) {
                     if (heatingPoint.equals(vertices.get(vertex))) {
@@ -540,8 +537,19 @@ public class Visibility {
             }
         });
 
+        Point prevStart = vertices.get(nVertex);
+        Point prevFinish = vertices.get(nVertex + 1);
+        if (prevStart != null) {
+            pointNumber.remove(prevStart);
+        }
+        if (prevFinish != null) {
+            pointNumber.remove(prevFinish);
+        }
+
         vertices.set(nVertex, start);
         vertices.set(nVertex + 1, finish);
+        pointNumber.put(start, nVertex);
+        pointNumber.put(finish, nVertex + 1);
 
         addSeparatePointToVisGraph(nVertex);
         addSeparatePointToVisGraph(nVertex + 1);
