@@ -391,7 +391,7 @@ public class Visibility {
         Vector vPrev, vCur;
         if (heatingPoint.equals(vertices.get(points.get(0)))) {
             vCur = new Vector(heatingPoint, vertices.get(points.get(1)));
-            vCur.rotateVector(1);
+            vCur.rotateVector(PI / 360);
         } else {
             vCur = new Vector(heatingPoint, vertices.get(points.get(0)));
         }
@@ -411,19 +411,20 @@ public class Visibility {
                     = getPointsNumbers(barrier.getAdjacentVertices(heatingPoint));
 
             if (!neighbors.isEmpty()) {
-                Collections.sort(neighbors, new PointsAngleComparator(ray, reversed));
-                //int begin = pointOrder[neighbors.getFirst()];
-                //int end = pointOrder[neighbors.getLast()];
                 Vector toBegin = new Vector(heatingPoint, vertices.get(neighbors.getFirst()));
                 Vector toEnd = new Vector(heatingPoint, vertices.get(neighbors.getLast()));
-                double angle = abs(toBegin.getAngle(toEnd));
+                double angle = toBegin.getAngle(toEnd);
+                if (angle < 0) {
+                    angle = -angle;
+                    toBegin.swap(toEnd);
+                }
+
                 for (Integer vertex : points) {
                     if (heatingPoint.equals(vertices.get(vertex))) {
                         continue;
                     }
                     Vector v = new Vector(heatingPoint, vertices.get(vertex));
-                    if (abs(v.getAngle(toBegin)) <= angle
-                            && abs(v.getAngle(toEnd)) <= angle) {
+                    if (toBegin.getAngle(v) <= angle) {
                         unvisiblePoints.add(vertex);
                     }
                 }
@@ -446,6 +447,14 @@ public class Visibility {
         return numbers;
     }
 
+    public LinkedList<Point> getPointsByNumbers(Collection<Integer> numbers) {
+        LinkedList<Point> points = new LinkedList<>();
+        for (int numb : numbers) {
+            points.add(vertices.get(numb));
+        }
+        return points;
+    }
+
     /**
      * find visible vertices from vertex number {@code heatingPoint}
      *
@@ -457,9 +466,12 @@ public class Visibility {
         int barrierNumb = world.getBarrierNumber(point);
         Polygon barrier = world.getBarrier(barrierNumb);
 
-        LinkedList<Point> adjacentVertices = barrier.getAdjacentVertices(point);
-        HashSet<Integer> visible = new HashSet<>(getPointsNumbers(adjacentVertices));
-        visible.add(heatingPoint);
+        HashSet<Integer> visible = new HashSet<>();
+        if (barrier != null) {
+            LinkedList<Point> adjacentVertices = barrier.getAdjacentVertices(point);
+            visible.addAll(getPointsNumbers(adjacentVertices));
+            visible.add(heatingPoint);
+        }
         visible.addAll(getVisible(point));
 
         return new LinkedList<>(visible);
