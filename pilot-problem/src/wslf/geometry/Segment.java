@@ -62,6 +62,17 @@ public class Segment implements Comparable<Segment> {
                 || (a.equals(s.b) && b.equals(s.a));
     }
 
+    /**
+     * check do segments have the same ends or not
+     * @param sg1 first
+     * @param sg2 second
+     * @return 
+     */
+    public static boolean samePoints(Segment sg1, Segment sg2) {
+        return sg1.a.equals(sg2.a) || sg1.a.equals(sg2.b)
+                || sg1.b.equals(sg2.a) || sg1.b.equals(sg2.b);
+    }
+
     public double length() {
         return a.distance(b);
     }
