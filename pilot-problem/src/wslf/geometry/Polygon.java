@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Polygon {
 
+    // vertices sorted by clockwise
     Point[] vertices;
 
     public Polygon(Point[] vertexes) {
@@ -99,30 +100,34 @@ public class Polygon {
      * @return true if point inside or on border of polygon
      */
     public boolean contains(Point p) {
-        int plus;
-        plus = 0;
-        for (int i = 0; i + 1 < vertices.length; i++) {
-            Vector v = new Vector(vertices[i + 1].x - vertices[i].x, vertices[i + 1].y - vertices[i].y);
-            Vector vP = new Vector(p.x - vertices[i].x, p.y - vertices[i].y);
-            switch (v.sgnMultiplyVectors(vP)) {
-                case 0:
-                    return new Segment(vertices[i], vertices[i + 1]).contains(p);
-                case 1:
-                    plus++;
+        for (Point v : vertices) {
+            if (v.equals(p)) {
+                return true;
             }
         }
 
-        Vector v = new Vector(vertices[0].x - vertices[vertices.length - 1].x, vertices[0].y - vertices[vertices.length - 1].y);
-        Vector vP = new Vector(p.x - vertices[vertices.length - 1].x, p.y - vertices[vertices.length - 1].y);
-        switch (v.sgnMultiplyVectors(vP)) {
-            case 0:
-                return new Segment(vertices[vertices.length - 1], vertices[0]).contains(p);
-            case 1:
-                plus++;
+        int in = 0;
+        final int rpTimes = 5;
+        for (int rep = 0; rep < rpTimes; rep++) {
+            int intersectionNum = 0;
+            Ray ray = new Ray(p, new Vector(java.lang.Math.random(), java.lang.Math.random()));
+            for (Segment sgm : toSegments()) {
+                if (ray.isIntersects(sgm)) {
+                    intersectionNum++;
+                }
+            }
+            for (Point v : vertices) {
+                if (ray.contains(v)) {
+                    intersectionNum--;
+                }
+            }
+
+            if (intersectionNum % 2 == 1) {
+                in++;
+            }
         }
 
-        return (plus == 0 || plus == vertices.length);
-
+        return in == rpTimes;
     }
 
     /**
