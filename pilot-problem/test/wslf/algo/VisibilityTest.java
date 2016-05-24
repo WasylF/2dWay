@@ -1200,7 +1200,7 @@ public class VisibilityTest {
         LinkedList<Integer> result = instance.getVisible(heatingPoint);
         assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
     }
-    //////////////////// TESTS WITH 2 POLYGONS ENDS ///////////////////////////
+//////////////////// TESTS WITH 2 POLYGONS ENDS ///////////////////////////
 
     //////////////////// TESTS by vertex num BEGIN ///////////////////////////
     @Test
@@ -1209,12 +1209,103 @@ public class VisibilityTest {
         World world = getWorld2Polygons1();
         Visibility instance = new Visibility(world);
 
-        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 1, 2, 8, 9, 10, 11));
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(1, 2, 8, 9, 10, 11));
         LinkedList<Integer> result = instance.getVisible(0);
         assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
     }
-    ///////////////////  TESTS by vertex num END  ///////////////////////////
 
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisibleByVertexNum2() {
+        System.out.println("getVisible");
+        int heatingPoint = 7;
+        World world = getWorld2Polygons1();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(8, 6));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisibleByVertexNum3() {
+        System.out.println("getVisible");
+        int heatingPoint = 3;
+        World world = getWorld2Polygons1();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(2, 4));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisibleByVertexNum4() {
+        System.out.println("getVisible");
+        int heatingPoint = 9;
+        World world = getWorld2Polygons1();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(0, 8, 10, 11));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    static World getWorld2Polygons2() {
+        //(50, 7), (42, 6), (37, 3), (15, 22)
+        Point[] verticies1 = {new Point(37, 3), new Point(15, 22),
+            new Point(50, 7), new Point(42, 6)};
+        Polygon polygon1 = new Polygon(verticies1);
+
+        //(112, 36), (105.2, 31.9), (111, 62), (136, 54), (137, 45)
+        Point[] verticies2 = {new Point(112, 36), new Point(105.2, 31.9), new Point(111, 62),
+            new Point(136, 54), new Point(137, 45)};
+//        Point[] verticies2 = {new Point(105.2, 31.9), new Point(111, 62), 
+        //          new Point(136, 54), new Point(137, 45), new Point(112, 36) };
+        Polygon polygon2 = new Polygon(verticies2);
+        Polygon[] barriers = {polygon1, polygon2};
+        return new World(barriers);
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisibleByVertexNum5() {
+        System.out.println("getVisibleByVertexNum5");
+        int heatingPoint = 0;
+        World world = getWorld2Polygons2();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(1, 2, 3));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+    /**
+     * Test of getVisible method, of class Visibility.
+     */
+    @Test
+    public void testGetVisibleByVertexNum6() {
+        System.out.println("getVisibleByVertexNum6\nheatingPoint 8");
+        int heatingPoint = 8;
+        World world = getWorld2Polygons2();
+        Visibility instance = new Visibility(world);
+
+        LinkedList<Integer> expResult = new LinkedList<>(Arrays.asList(4, 5, 7, 2));
+        LinkedList<Integer> result = instance.getVisible(heatingPoint);
+        assertTrue(expResult.containsAll(result) && result.containsAll(expResult));
+    }
+
+///////////////////  TESTS by vertex num END  ///////////////////////////
     static World getWorld3Polygons1() {
         // (-7, -5), (-7, 7), (-2, 7), (-2, -5) 
         Point[] verticies1 = {new Point(-7, -5), new Point(-7, 7), new Point(-2, 7), new Point(-2, -5)};
@@ -1239,20 +1330,20 @@ public class VisibilityTest {
         Visibility instance = new Visibility(world);
 
         ArrayList<ArrayList<Integer>> expResult = new ArrayList<>();
-        expResult.add(new ArrayList<>(Arrays.asList(0, 1, 3, 4))); // 0
-        expResult.add(new ArrayList<>(Arrays.asList(0, 1, 2, 9))); // 1
-        expResult.add(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 8, 9))); // 2
-        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 3, 4, 5, 8, 9))); // 3
+        expResult.add(new ArrayList<>(Arrays.asList(1, 3, 4))); // 0
+        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 9))); // 1
+        expResult.add(new ArrayList<>(Arrays.asList(1, 3, 4, 5, 6, 8, 9))); // 2
+        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 4, 5, 8, 9))); // 3
 
-        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 3, 4, 5, 7))); // 4
-        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 4, 5, 6, 8, 9))); // 5
-        expResult.add(new ArrayList<>(Arrays.asList(2, 5, 6, 7, 8, 11))); // 6
-        expResult.add(new ArrayList<>(Arrays.asList(4, 6, 7, 11))); // 7
+        expResult.add(new ArrayList<>(Arrays.asList(0, 2, 3, 5, 7))); // 4
+        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 4, 6, 8, 9))); // 5
+        expResult.add(new ArrayList<>(Arrays.asList(2, 5, 7, 8, 11))); // 6
+        expResult.add(new ArrayList<>(Arrays.asList(4, 6, 11))); // 7
 
-        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 5, 6, 8, 9, 11))); // 8
-        expResult.add(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 8, 9, 10))); // 9
-        expResult.add(new ArrayList<>(Arrays.asList(9, 10, 11))); // 10
-        expResult.add(new ArrayList<>(Arrays.asList(6, 7, 8, 10, 11))); // 11
+        expResult.add(new ArrayList<>(Arrays.asList(2, 3, 5, 6, 9, 11))); // 8
+        expResult.add(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 8, 10))); // 9
+        expResult.add(new ArrayList<>(Arrays.asList(9, 11))); // 10
+        expResult.add(new ArrayList<>(Arrays.asList(6, 7, 8, 10))); // 11
 
         expResult.add(new ArrayList<>());
         expResult.add(new ArrayList<>());

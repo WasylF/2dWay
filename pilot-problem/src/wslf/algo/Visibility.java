@@ -172,7 +172,8 @@ public class Visibility {
                 return d1 < 0 ? 1 : -1;
             }
 
-            if (abs(d1 - d2) < EPS) {
+            if (abs(d1 - d2) < EPS
+                    || Segment.samePoints(segments.get(sg1), segments.get(sg2))) {
                 Segment segm1 = segments.get(sg1);
                 Segment segm2 = segments.get(sg2);
                 if (segm1.isIntersect(new Segment(segm2.getA(), ray.getPoint()))
@@ -411,7 +412,6 @@ public class Visibility {
                     = getPointsNumbers(barrier.getAdjacentVertices(heatingPoint));
 
             if (!neighbors.isEmpty()) {
-                Collections.sort(neighbors, new PointsAngleComparator(ray, reversed));
                 Vector toBegin = new Vector(heatingPoint, vertices.get(neighbors.getFirst()));
                 Vector toEnd = new Vector(heatingPoint, vertices.get(neighbors.getLast()));
                 double angle = toBegin.getAngle2PI(toEnd);
@@ -421,7 +421,7 @@ public class Visibility {
                         continue;
                     }
                     Vector v = new Vector(heatingPoint, vertices.get(vertex));
-                    if (toBegin.getAngle(v) <= angle) {
+                    if (toBegin.getAngle2PI(v) <= angle) {
                         unvisiblePoints.add(vertex);
                     }
                 }
@@ -463,13 +463,13 @@ public class Visibility {
         int barrierNumb = world.getBarrierNumber(point);
         Polygon barrier = world.getBarrier(barrierNumb);
 
-        HashSet<Integer> visible = new HashSet<>();
+        TreeSet<Integer> visible = new TreeSet<>();
         if (barrier != null) {
             LinkedList<Point> adjacentVertices = barrier.getAdjacentVertices(point);
             visible.addAll(getPointsNumbers(adjacentVertices));
-            visible.add(heatingPoint);
         }
         visible.addAll(getVisible(point));
+        visible.remove(heatingPoint);
 
         return new LinkedList<>(visible);
     }
@@ -558,10 +558,9 @@ public class Visibility {
     }
 
     private void printDebug(int i, TreeSet<Integer> status, int pointsSize, int curPointN, Point curPoint) {
-
         /*        System.out.println((i + 1) + ") of " + pointsSize);
          System.out.println("curPoint: " + curPointN + " :  " + curPoint);
-
+        
          System.out.println("current status:");
          for (Integer s : status) {
          System.out.println(s + ":  " + segments.get(s));
@@ -571,8 +570,7 @@ public class Visibility {
          } else {
          System.out.println("closest: " + status.first() + "  -  " + segments.get(status.first()));
          }
-         System.out.println("\n\n");
-         */
+         System.out.println("\n\n");*/
     }
 
 }
