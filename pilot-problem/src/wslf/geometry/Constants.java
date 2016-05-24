@@ -9,7 +9,7 @@ public class Constants {
     /**
      * epsilon value for distances
      */
-    public static final double EPS = 1e-8;
+    public static final double EPS = 1e-6;
     /**
      * epsilon angle in radians
      */
@@ -17,9 +17,9 @@ public class Constants {
     /**
      * Prime number for hash code
      */
-    public static final long BIG_PRIME= 5915587277L;
-    /** 
+    public static final long BIG_PRIME = 5915587277L;
+    /**
      * Prime number for hash code
      */
-    public static final long LOW_PRIME= 97;
+    public static final long LOW_PRIME = 97;
 }

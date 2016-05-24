@@ -1,11 +1,13 @@
 package wslf.algo;
 
+import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import javafx.util.Pair;
+import static wslf.geometry.Constants.EPS;
 import wslf.geometry.Point;
 
 /**
@@ -37,7 +39,7 @@ public class FindWay {
 
         @Override
         public int compare(Pair<Double, Integer> p1, Pair<Double, Integer> p2) {
-            if (p1 == p2) {
+            if (p1 == p2 || abs(p1.getKey() - p2.getKey()) < EPS) {
                 return 0;
             }
             if (p1.getKey() < p2.getKey()) {
@@ -71,7 +73,6 @@ public class FindWay {
             i++;
             int vertex = queue.first().getValue();
             queue.remove(queue.first());
-            System.out.println(i + ") " + vertex);
 
             for (Pair<Integer, Double> adj : visGraph.get(vertex)) {
                 int to = adj.getKey();
